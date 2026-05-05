@@ -1,0 +1,3780 @@
+<roblox version="4">
+  <Item class="ReplicatedStorage" referent="0">
+    <Properties>
+      <string name="Name">ReplicatedStorage</string>
+    </Properties>
+    <Item class="Folder" referent="1">
+      <Properties>
+        <string name="Name">Modules</string>
+      </Properties>
+      <Item class="ModuleScript" referent="2">
+        <Properties>
+          <string name="Name">Config</string>
+          <string name="Source"><![CDATA[local Config = {}
+
+Config.GameName = "Mutation Garden Wars"
+Config.DataStoreName = "MutationGardenWars_v1"
+
+Config.StartingCash = 100
+Config.StartingSeeds = {
+	BasicBean = 1,
+}
+
+Config.AutoSaveInterval = 60
+Config.MaxSaveRetries = 3
+
+Config.PlotCount = 12
+Config.BaseMaxPlants = 12
+Config.VipExtraPlantSlots = 6
+Config.PlotSpacing = 64
+Config.PlotSize = Vector3.new(44, 1, 44)
+Config.SlotColumns = 6
+Config.SlotSpacing = 9
+Config.WorldFolderName = "MutationGardenWars"
+
+Config.BaseMutationChance = 0.10
+Config.LuckyMutationBoostChance = 0.25
+Config.LuckyMutationBoostSeconds = 10 * 60
+
+Config.PlantRequestCooldown = 0.45
+Config.HarvestRequestCooldown = 0.25
+Config.SellAllCooldown = 3
+Config.StealCooldown = 120
+Config.StealRewardPercent = 0.4
+Config.OwnerInsurancePercent = 0.2
+Config.ShieldSecondsAfterSteal = 90
+
+Config.RebirthBaseCost = 10000
+Config.RebirthCostGrowth = 2.2
+Config.RebirthCashMultiplierPerRebirth = 0.25
+
+Config.DailyRewardBase = 250
+Config.DailyRewardStreakBonus = 100
+Config.DailyRewardMaxStreak = 7
+
+Config.RemoteNames = {
+	GetSnapshot = "GetSnapshot",
+	StateUpdate = "StateUpdate",
+	Notify = "Notify",
+	FloatingText = "FloatingText",
+	RequestPlant = "RequestPlant",
+	RequestBuySeed = "RequestBuySeed",
+	RequestSellAll = "RequestSellAll",
+	RequestRebirth = "RequestRebirth",
+	RequestDailyReward = "RequestDailyReward",
+	RequestTeleportToPlot = "RequestTeleportToPlot",
+	RequestTrade = "RequestTrade",
+	RequestProductPurchase = "RequestProductPurchase",
+	RequestGamePassPurchase = "RequestGamePassPurchase",
+}
+
+Config.GamePasses = {
+	DoubleCash = {
+		Id = 0,
+		DisplayName = "2x Cash",
+	},
+	VipGarden = {
+		Id = 0,
+		DisplayName = "VIP Garden",
+	},
+}
+
+Config.DeveloperProducts = {
+	LuckyMutationBoost = {
+		Id = 0,
+		DisplayName = "Lucky Mutation Boost",
+	},
+	SmallCashPack = {
+		Id = 0,
+		DisplayName = "Small Cash Pack",
+		Cash = 2500,
+	},
+	MediumCashPack = {
+		Id = 0,
+		DisplayName = "Medium Cash Pack",
+		Cash = 12500,
+	},
+	LargeCashPack = {
+		Id = 0,
+		DisplayName = "Large Cash Pack",
+		Cash = 60000,
+	},
+}
+
+Config.RarityOrder = {
+	Common = 1,
+	Uncommon = 2,
+	Rare = 3,
+	Epic = 4,
+	Legendary = 5,
+	Mythic = 6,
+	Cosmic = 7,
+}
+
+Config.RarityColors = {
+	Common = Color3.fromRGB(152, 224, 129),
+	Uncommon = Color3.fromRGB(88, 206, 255),
+	Rare = Color3.fromRGB(87, 111, 255),
+	Epic = Color3.fromRGB(193, 92, 255),
+	Legendary = Color3.fromRGB(255, 193, 69),
+	Mythic = Color3.fromRGB(255, 74, 137),
+	Cosmic = Color3.fromRGB(82, 246, 219),
+}
+
+Config.Ui = {
+	Primary = Color3.fromRGB(42, 197, 98),
+	PrimaryDark = Color3.fromRGB(26, 134, 72),
+	Panel = Color3.fromRGB(24, 32, 38),
+	PanelLight = Color3.fromRGB(37, 48, 57),
+	Text = Color3.fromRGB(245, 250, 246),
+	Muted = Color3.fromRGB(188, 205, 196),
+	Warning = Color3.fromRGB(255, 202, 77),
+	Danger = Color3.fromRGB(255, 87, 87),
+}
+
+return Config
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="3">
+        <Properties>
+          <string name="Name">MutationData</string>
+          <string name="Source"><![CDATA[local MutationData = {}
+
+MutationData.NormalId = "Normal"
+
+MutationData.Order = {
+	"Normal",
+	"Big",
+	"Golden",
+	"Rainbow",
+	"Cursed",
+	"Brainrot",
+	"Cosmic",
+}
+
+MutationData.Mutations = {
+	Normal = {
+		Id = "Normal",
+		DisplayName = "Normal",
+		Multiplier = 1,
+		Weight = 0,
+		Color = Color3.fromRGB(255, 255, 255),
+		Material = Enum.Material.SmoothPlastic,
+		Scale = 1,
+	},
+	Big = {
+		Id = "Big",
+		DisplayName = "Big",
+		Multiplier = 2,
+		Weight = 55,
+		Color = Color3.fromRGB(137, 255, 123),
+		Material = Enum.Material.SmoothPlastic,
+		Scale = 1.25,
+	},
+	Golden = {
+		Id = "Golden",
+		DisplayName = "Golden",
+		Multiplier = 5,
+		Weight = 24,
+		Color = Color3.fromRGB(255, 203, 56),
+		Material = Enum.Material.Metal,
+		Scale = 1.1,
+	},
+	Rainbow = {
+		Id = "Rainbow",
+		DisplayName = "Rainbow",
+		Multiplier = 10,
+		Weight = 12,
+		Color = Color3.fromRGB(255, 110, 216),
+		Material = Enum.Material.Neon,
+		Scale = 1.15,
+	},
+	Cursed = {
+		Id = "Cursed",
+		DisplayName = "Cursed",
+		Multiplier = 15,
+		Weight = 5,
+		Color = Color3.fromRGB(121, 60, 166),
+		Material = Enum.Material.Neon,
+		Scale = 1.05,
+	},
+	Brainrot = {
+		Id = "Brainrot",
+		DisplayName = "Brainrot",
+		Multiplier = 25,
+		Weight = 3,
+		Color = Color3.fromRGB(84, 255, 114),
+		Material = Enum.Material.Neon,
+		Scale = 1.2,
+	},
+	Cosmic = {
+		Id = "Cosmic",
+		DisplayName = "Cosmic",
+		Multiplier = 50,
+		Weight = 1,
+		Color = Color3.fromRGB(74, 237, 255),
+		Material = Enum.Material.Neon,
+		Scale = 1.3,
+	},
+}
+
+function MutationData.Get(mutationId)
+	return MutationData.Mutations[mutationId] or MutationData.Mutations.Normal
+end
+
+function MutationData.GetMutationPool()
+	local pool = {}
+
+	for _, mutationId in ipairs(MutationData.Order) do
+		local mutation = MutationData.Mutations[mutationId]
+
+		if mutation.Weight > 0 then
+			table.insert(pool, mutation)
+		end
+	end
+
+	return pool
+end
+
+return MutationData
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="4">
+        <Properties>
+          <string name="Name">PlantData</string>
+          <string name="Source"><![CDATA[local PlantData = {}
+
+PlantData.Order = {
+	"BasicBean",
+	"MemeMoss",
+	"SideEyeSprout",
+	"ChonkyCarrot",
+	"SusSunflower",
+	"DramaGourd",
+	"BrainrotBloom",
+	"CosmicCactus",
+}
+
+PlantData.Seeds = {
+	BasicBean = {
+		Id = "BasicBean",
+		DisplayName = "Basic Bean",
+		Rarity = "Common",
+		Cost = 25,
+		GrowthTime = 30,
+		HarvestValue = 50,
+		RebirthRequired = 0,
+		Color = Color3.fromRGB(106, 210, 92),
+		Shape = "Bean",
+	},
+	MemeMoss = {
+		Id = "MemeMoss",
+		DisplayName = "Meme Moss",
+		Rarity = "Uncommon",
+		Cost = 125,
+		GrowthTime = 55,
+		HarvestValue = 210,
+		RebirthRequired = 0,
+		Color = Color3.fromRGB(82, 222, 174),
+		Shape = "Blob",
+	},
+	SideEyeSprout = {
+		Id = "SideEyeSprout",
+		DisplayName = "Side-Eye Sprout",
+		Rarity = "Rare",
+		Cost = 650,
+		GrowthTime = 95,
+		HarvestValue = 1200,
+		RebirthRequired = 0,
+		Color = Color3.fromRGB(75, 142, 255),
+		Shape = "Sprout",
+	},
+	ChonkyCarrot = {
+		Id = "ChonkyCarrot",
+		DisplayName = "Chonky Carrot",
+		Rarity = "Epic",
+		Cost = 2500,
+		GrowthTime = 150,
+		HarvestValue = 5200,
+		RebirthRequired = 0,
+		Color = Color3.fromRGB(255, 137, 63),
+		Shape = "Root",
+	},
+	SusSunflower = {
+		Id = "SusSunflower",
+		DisplayName = "Sus Sunflower",
+		Rarity = "Legendary",
+		Cost = 9500,
+		GrowthTime = 240,
+		HarvestValue = 24000,
+		RebirthRequired = 1,
+		Color = Color3.fromRGB(255, 210, 66),
+		Shape = "Flower",
+	},
+	DramaGourd = {
+		Id = "DramaGourd",
+		DisplayName = "Drama Gourd",
+		Rarity = "Legendary",
+		Cost = 22000,
+		GrowthTime = 360,
+		HarvestValue = 62000,
+		RebirthRequired = 2,
+		Color = Color3.fromRGB(255, 94, 116),
+		Shape = "Gourd",
+	},
+	BrainrotBloom = {
+		Id = "BrainrotBloom",
+		DisplayName = "Brainrot Bloom",
+		Rarity = "Mythic",
+		Cost = 90000,
+		GrowthTime = 600,
+		HarvestValue = 290000,
+		RebirthRequired = 3,
+		Color = Color3.fromRGB(214, 90, 255),
+		Shape = "Flower",
+	},
+	CosmicCactus = {
+		Id = "CosmicCactus",
+		DisplayName = "Cosmic Cactus",
+		Rarity = "Cosmic",
+		Cost = 400000,
+		GrowthTime = 900,
+		HarvestValue = 1500000,
+		RebirthRequired = 5,
+		Color = Color3.fromRGB(70, 255, 224),
+		Shape = "Cactus",
+	},
+}
+
+function PlantData.Get(seedId)
+	return PlantData.Seeds[seedId]
+end
+
+function PlantData.GetOrderedSeeds()
+	local seeds = {}
+
+	for _, seedId in ipairs(PlantData.Order) do
+		table.insert(seeds, PlantData.Seeds[seedId])
+	end
+
+	return seeds
+end
+
+return PlantData
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="5">
+        <Properties>
+          <string name="Name">Utility</string>
+          <string name="Source"><![CDATA[local Utility = {}
+
+function Utility.DeepCopy(value)
+	if type(value) ~= "table" then
+		return value
+	end
+
+	local copy = {}
+
+	for key, child in pairs(value) do
+		copy[Utility.DeepCopy(key)] = Utility.DeepCopy(child)
+	end
+
+	return copy
+end
+
+function Utility.ClampNumber(value, minValue, maxValue, fallback)
+	if type(value) ~= "number" or value ~= value then
+		return fallback or minValue
+	end
+
+	return math.clamp(value, minValue, maxValue)
+end
+
+function Utility.GetUnixDay(timestamp)
+	return math.floor((timestamp or os.time()) / 86400)
+end
+
+function Utility.FormatNumber(value)
+	value = math.floor(tonumber(value) or 0)
+
+	if value >= 1000000000 then
+		return string.format("%.1fB", value / 1000000000)
+	end
+
+	if value >= 1000000 then
+		return string.format("%.1fM", value / 1000000)
+	end
+
+	if value >= 1000 then
+		return string.format("%.1fK", value / 1000)
+	end
+
+	return tostring(value)
+end
+
+function Utility.WeightedChoice(items, randomObject)
+	local totalWeight = 0
+
+	for _, item in ipairs(items) do
+		totalWeight += math.max(0, item.Weight or 0)
+	end
+
+	if totalWeight <= 0 then
+		return nil
+	end
+
+	local roll = (randomObject or Random.new()):NextNumber(0, totalWeight)
+	local cursor = 0
+
+	for _, item in ipairs(items) do
+		cursor += math.max(0, item.Weight or 0)
+
+		if roll <= cursor then
+			return item
+		end
+	end
+
+	return items[#items]
+end
+
+function Utility.MakeDictionaryFromArray(array)
+	local dictionary = {}
+
+	for _, value in ipairs(array) do
+		dictionary[value] = true
+	end
+
+	return dictionary
+end
+
+function Utility.RoundTo(value, places)
+	local multiplier = 10 ^ (places or 0)
+
+	return math.floor((value * multiplier) + 0.5) / multiplier
+end
+
+return Utility
+]]></string>
+        </Properties>
+      </Item>
+    </Item>
+    <Item class="Folder" referent="6">
+      <Properties>
+        <string name="Name">Remotes</string>
+      </Properties>
+    </Item>
+  </Item>
+  <Item class="ServerScriptService" referent="7">
+    <Properties>
+      <string name="Name">ServerScriptService</string>
+    </Properties>
+    <Item class="ModuleScript" referent="8">
+      <Properties>
+        <string name="Name">DataService</string>
+        <string name="Source"><![CDATA[local DataStoreService = game:GetService("DataStoreService")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+local PlantData = require(Modules:WaitForChild("PlantData"))
+local MutationData = require(Modules:WaitForChild("MutationData"))
+local Utility = require(Modules:WaitForChild("Utility"))
+
+local DataService = {}
+
+DataService.PlayerData = {}
+DataService.Dirty = {}
+DataService.SaveLocks = {}
+
+local store = DataStoreService:GetDataStore(Config.DataStoreName)
+
+local function makeDefaultData()
+	return {
+		Version = 1,
+		Cash = Config.StartingCash,
+		Rebirths = 0,
+		Inventory = Utility.DeepCopy(Config.StartingSeeds),
+		Plants = {},
+		Daily = {
+			LastClaimDay = 0,
+			Streak = 0,
+		},
+		LuckBoostUntil = 0,
+		ShieldUntil = 0,
+		Stats = {
+			TotalHarvested = 0,
+			TotalStolen = 0,
+			TotalSpent = 0,
+			TotalRebirths = 0,
+		},
+		LastSeen = os.time(),
+	}
+end
+
+local function sanitizeInventory(inventory)
+	local sanitized = {}
+
+	if type(inventory) ~= "table" then
+		inventory = {}
+	end
+
+	for seedId, amount in pairs(inventory) do
+		if PlantData.Get(seedId) then
+			sanitized[seedId] = Utility.ClampNumber(math.floor(tonumber(amount) or 0), 0, 999999, 0)
+		end
+	end
+
+	for seedId, amount in pairs(Config.StartingSeeds) do
+		if sanitized[seedId] == nil then
+			sanitized[seedId] = amount
+		end
+	end
+
+	return sanitized
+end
+
+local function sanitizePlants(plants)
+	local sanitized = {}
+	local usedIds = {}
+	local usedSlots = {}
+
+	if type(plants) ~= "table" then
+		return sanitized
+	end
+
+	for _, plant in ipairs(plants) do
+		if type(plant) == "table" and PlantData.Get(plant.SeedId) then
+			local mutationId = plant.MutationId
+
+			if not MutationData.Mutations[mutationId] then
+				mutationId = MutationData.NormalId
+			end
+
+			local plantId = tostring(plant.Id or "")
+			if plantId == "" or usedIds[plantId] then
+				plantId = tostring(os.clock()) .. "_" .. tostring(math.random(100000, 999999))
+			end
+
+			local slotIndex = math.floor(tonumber(plant.SlotIndex) or 0)
+			if slotIndex < 1 or usedSlots[slotIndex] then
+				slotIndex = 0
+			end
+
+			usedIds[plantId] = true
+			if slotIndex > 0 then
+				usedSlots[slotIndex] = true
+			end
+
+			table.insert(sanitized, {
+				Id = plantId,
+				SeedId = plant.SeedId,
+				MutationId = mutationId,
+				PlantedAt = Utility.ClampNumber(math.floor(tonumber(plant.PlantedAt) or os.time()), 0, os.time(), os.time()),
+				SlotIndex = slotIndex,
+			})
+		end
+	end
+
+	return sanitized
+end
+
+local function sanitizeData(rawData)
+	local data = makeDefaultData()
+
+	if type(rawData) ~= "table" then
+		return data
+	end
+
+	data.Version = 1
+	data.Cash = Utility.ClampNumber(math.floor(tonumber(rawData.Cash) or Config.StartingCash), 0, 999999999999, Config.StartingCash)
+	data.Rebirths = Utility.ClampNumber(math.floor(tonumber(rawData.Rebirths) or 0), 0, 100000, 0)
+	data.Inventory = sanitizeInventory(rawData.Inventory)
+	data.Plants = sanitizePlants(rawData.Plants)
+
+	if type(rawData.Daily) == "table" then
+		data.Daily.LastClaimDay = Utility.ClampNumber(math.floor(tonumber(rawData.Daily.LastClaimDay) or 0), 0, 999999, 0)
+		data.Daily.Streak = Utility.ClampNumber(math.floor(tonumber(rawData.Daily.Streak) or 0), 0, Config.DailyRewardMaxStreak, 0)
+	end
+
+	data.LuckBoostUntil = Utility.ClampNumber(math.floor(tonumber(rawData.LuckBoostUntil) or 0), 0, 9999999999, 0)
+	data.ShieldUntil = Utility.ClampNumber(math.floor(tonumber(rawData.ShieldUntil) or 0), 0, 9999999999, 0)
+
+	if type(rawData.Stats) == "table" then
+		for key, value in pairs(data.Stats) do
+			data.Stats[key] = Utility.ClampNumber(math.floor(tonumber(rawData.Stats[key]) or value), 0, 999999999999, value)
+		end
+	end
+
+	data.LastSeen = Utility.ClampNumber(math.floor(tonumber(rawData.LastSeen) or os.time()), 0, 9999999999, os.time())
+
+	return data
+end
+
+function DataService:Init(context)
+	self.Context = context
+	self.Remotes = context.Remotes
+end
+
+function DataService:Start()
+	self.Remotes.GetSnapshot.OnServerInvoke = function(player)
+		return self:BuildSnapshot(player)
+	end
+
+	task.spawn(function()
+		while true do
+			task.wait(Config.AutoSaveInterval)
+
+			for _, player in ipairs(Players:GetPlayers()) do
+				self:SavePlayer(player)
+			end
+		end
+	end)
+end
+
+function DataService:LoadPlayer(player)
+	local key = "Player_" .. player.UserId
+	local loadedData
+	local success = false
+
+	for attempt = 1, Config.MaxSaveRetries do
+		success, loadedData = pcall(function()
+			return store:GetAsync(key)
+		end)
+
+		if success then
+			break
+		end
+
+		warn(("[DataService] Load failed for %s attempt %d: %s"):format(player.Name, attempt, tostring(loadedData)))
+		task.wait(attempt)
+	end
+
+	if not success then
+		self:Notify(player, "DataStore unavailable. Playing with fresh session data.")
+	end
+
+	self.PlayerData[player.UserId] = sanitizeData(loadedData)
+	self.Dirty[player.UserId] = false
+	self:SetupLeaderstats(player)
+end
+
+function DataService:SavePlayer(player)
+	local data = self:GetData(player)
+
+	if not data or self.SaveLocks[player.UserId] then
+		return false
+	end
+
+	self.SaveLocks[player.UserId] = true
+	data.LastSeen = os.time()
+
+	local key = "Player_" .. player.UserId
+	local dataToSave = Utility.DeepCopy(data)
+	local success = false
+	local err
+
+	for attempt = 1, Config.MaxSaveRetries do
+		success, err = pcall(function()
+			store:SetAsync(key, dataToSave)
+		end)
+
+		if success then
+			break
+		end
+
+		warn(("[DataService] Save failed for %s attempt %d: %s"):format(player.Name, attempt, tostring(err)))
+		task.wait(attempt)
+	end
+
+	if success then
+		self.Dirty[player.UserId] = false
+	else
+		self:Notify(player, "Save is retrying in the background.")
+	end
+
+	self.SaveLocks[player.UserId] = nil
+	return success
+end
+
+function DataService:ForgetPlayer(player)
+	self.PlayerData[player.UserId] = nil
+	self.Dirty[player.UserId] = nil
+	self.SaveLocks[player.UserId] = nil
+end
+
+function DataService:GetData(player)
+	return self.PlayerData[player.UserId]
+end
+
+function DataService:GetDataByUserId(userId)
+	return self.PlayerData[userId]
+end
+
+function DataService:GetAllData()
+	return self.PlayerData
+end
+
+function DataService:MarkDirty(player)
+	self.Dirty[player.UserId] = true
+end
+
+function DataService:SetupLeaderstats(player)
+	local leaderstats = player:FindFirstChild("leaderstats")
+
+	if not leaderstats then
+		leaderstats = Instance.new("Folder")
+		leaderstats.Name = "leaderstats"
+		leaderstats.Parent = player
+	end
+
+	local cash = leaderstats:FindFirstChild("Cash") or Instance.new("IntValue")
+	cash.Name = "Cash"
+	cash.Parent = leaderstats
+
+	local rebirths = leaderstats:FindFirstChild("Rebirths") or Instance.new("IntValue")
+	rebirths.Name = "Rebirths"
+	rebirths.Parent = leaderstats
+
+	self:UpdateLeaderstats(player)
+end
+
+function DataService:UpdateLeaderstats(player)
+	local data = self:GetData(player)
+	local leaderstats = player:FindFirstChild("leaderstats")
+
+	if not data or not leaderstats then
+		return
+	end
+
+	local cash = leaderstats:FindFirstChild("Cash")
+	local rebirths = leaderstats:FindFirstChild("Rebirths")
+
+	if cash then
+		cash.Value = math.clamp(math.floor(data.Cash), 0, 2147483647)
+	end
+
+	if rebirths then
+		rebirths.Value = data.Rebirths
+	end
+end
+
+function DataService:GetRebirthCashMultiplier(player)
+	local data = self:GetData(player)
+	local rebirths = data and data.Rebirths or 0
+
+	return 1 + (rebirths * Config.RebirthCashMultiplierPerRebirth)
+end
+
+function DataService:GetRebirthCost(player)
+	local data = self:GetData(player)
+	local rebirths = data and data.Rebirths or 0
+
+	return math.floor(Config.RebirthBaseCost * (Config.RebirthCostGrowth ^ rebirths))
+end
+
+function DataService:AddCash(player, amount, reason)
+	local data = self:GetData(player)
+
+	if not data then
+		return false
+	end
+
+	amount = math.floor(tonumber(amount) or 0)
+
+	if amount <= 0 then
+		return false
+	end
+
+	data.Cash = math.clamp(data.Cash + amount, 0, 999999999999)
+
+	if reason == "Harvest" then
+		data.Stats.TotalHarvested += amount
+	elseif reason == "Steal" then
+		data.Stats.TotalStolen += amount
+	end
+
+	self:MarkDirty(player)
+	self:UpdateLeaderstats(player)
+	self:Push(player)
+
+	return true
+end
+
+function DataService:SpendCash(player, amount)
+	local data = self:GetData(player)
+
+	if not data then
+		return false
+	end
+
+	amount = math.floor(tonumber(amount) or 0)
+
+	if amount <= 0 or data.Cash < amount then
+		return false
+	end
+
+	data.Cash -= amount
+	data.Stats.TotalSpent += amount
+
+	self:MarkDirty(player)
+	self:UpdateLeaderstats(player)
+	self:Push(player)
+
+	return true
+end
+
+function DataService:AddSeed(player, seedId, amount)
+	local data = self:GetData(player)
+
+	if not data or not PlantData.Get(seedId) then
+		return false
+	end
+
+	amount = math.floor(tonumber(amount) or 1)
+
+	if amount <= 0 then
+		return false
+	end
+
+	data.Inventory[seedId] = math.clamp((data.Inventory[seedId] or 0) + amount, 0, 999999)
+
+	self:MarkDirty(player)
+	self:Push(player)
+
+	return true
+end
+
+function DataService:RemoveSeed(player, seedId, amount)
+	local data = self:GetData(player)
+
+	if not data or not PlantData.Get(seedId) then
+		return false
+	end
+
+	amount = math.floor(tonumber(amount) or 1)
+
+	if amount <= 0 or (data.Inventory[seedId] or 0) < amount then
+		return false
+	end
+
+	data.Inventory[seedId] -= amount
+
+	self:MarkDirty(player)
+	self:Push(player)
+
+	return true
+end
+
+function DataService:Notify(player, message, tone)
+	if self.Remotes and self.Remotes.Notify then
+		self.Remotes.Notify:FireClient(player, tostring(message), tone or "Info")
+	end
+end
+
+function DataService:Push(player)
+	if not self.Remotes or not self.Remotes.StateUpdate then
+		return
+	end
+
+	self.Remotes.StateUpdate:FireClient(player, self:BuildSnapshot(player))
+end
+
+function DataService:BuildSnapshot(player)
+	local data = self:GetData(player)
+
+	if not data then
+		return nil
+	end
+
+	local services = self.Context.Services
+	local plantSummaries = {}
+	local shop = {}
+	local canClaimDaily = false
+	local dailyReward = Config.DailyRewardBase
+	local totalMultiplier = self:GetRebirthCashMultiplier(player)
+	local maxPlants = Config.BaseMaxPlants
+
+	if services.PlantService then
+		plantSummaries = services.PlantService:GetPlantSummaries(player)
+	end
+
+	if services.ShopService then
+		shop = services.ShopService:GetShopForPlayer(player)
+	end
+
+	if services.RewardService then
+		canClaimDaily = services.RewardService:CanClaim(player)
+		dailyReward = services.RewardService:GetRewardAmount(player)
+	end
+
+	if services.MonetizationService then
+		totalMultiplier = services.MonetizationService:GetTotalCashMultiplier(player)
+		maxPlants = services.MonetizationService:GetMaxPlants(player)
+	end
+
+	return {
+		GameName = Config.GameName,
+		Cash = data.Cash,
+		Rebirths = data.Rebirths,
+		RebirthCost = self:GetRebirthCost(player),
+		CashMultiplier = totalMultiplier,
+		Inventory = Utility.DeepCopy(data.Inventory),
+		Plants = plantSummaries,
+		MaxPlants = maxPlants,
+		CanClaimDaily = canClaimDaily,
+		DailyReward = dailyReward,
+		DailyStreak = data.Daily.Streak,
+		Shop = shop,
+		LuckyBoostRemaining = math.max(0, data.LuckBoostUntil - os.time()),
+		ShieldRemaining = math.max(0, data.ShieldUntil - os.time()),
+	}
+end
+
+return DataService
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="9">
+      <Properties>
+        <string name="Name">GardenService</string>
+        <string name="Source"><![CDATA[local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+
+local GardenService = {}
+
+GardenService.Plots = {}
+GardenService.CharacterConnections = {}
+
+local function createPart(parent, name, size, cframe, color, material)
+	local part = Instance.new("Part")
+	part.Name = name
+	part.Anchored = true
+	part.Size = size
+	part.CFrame = cframe
+	part.Color = color
+	part.Material = material or Enum.Material.SmoothPlastic
+	part.TopSurface = Enum.SurfaceType.Smooth
+	part.BottomSurface = Enum.SurfaceType.Smooth
+	part.Parent = parent
+
+	return part
+end
+
+local function createBillboard(parent, text)
+	local gui = Instance.new("BillboardGui")
+	gui.Name = "PlotBillboard"
+	gui.AlwaysOnTop = true
+	gui.Size = UDim2.fromOffset(220, 72)
+	gui.StudsOffset = Vector3.new(0, 6, 0)
+	gui.Parent = parent
+
+	local label = Instance.new("TextLabel")
+	label.Name = "Label"
+	label.BackgroundTransparency = 0.2
+	label.BackgroundColor3 = Color3.fromRGB(21, 30, 27)
+	label.BorderSizePixel = 0
+	label.Size = UDim2.fromScale(1, 1)
+	label.Font = Enum.Font.GothamBlack
+	label.TextScaled = true
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.Text = text
+	label.Parent = gui
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 10)
+	corner.Parent = label
+
+	return gui
+end
+
+local function computeSlotCFrame(plotCFrame, slotIndex)
+	local columns = Config.SlotColumns
+	local rows = math.ceil((Config.BaseMaxPlants + Config.VipExtraPlantSlots) / columns)
+	local row = math.floor((slotIndex - 1) / columns)
+	local column = (slotIndex - 1) % columns
+	local x = (column - ((columns - 1) / 2)) * Config.SlotSpacing
+	local z = (row - ((rows - 1) / 2)) * Config.SlotSpacing
+
+	return plotCFrame * CFrame.new(x, 2.2, z)
+end
+
+function GardenService:Init(context)
+	self.Context = context
+	self.Remotes = context.Remotes
+end
+
+function GardenService:Start()
+	task.wait(0.25)
+	self:BuildWorld()
+
+	self.Remotes.RequestTeleportToPlot.OnServerEvent:Connect(function(player)
+		self:TeleportToPlot(player)
+	end)
+end
+
+function GardenService:IndexExistingWorld(root)
+	local plotsFolder = root:FindFirstChild("Plots")
+
+	if not plotsFolder then
+		return false
+	end
+
+	self.Root = root
+	self.Plots = {}
+
+	for plotId = 1, Config.PlotCount do
+		local model = plotsFolder:FindFirstChild(("Plot_%02d"):format(plotId))
+
+		if model then
+			local base = model:FindFirstChild("Base")
+			local soil = model:FindFirstChild("Soil")
+			local sign = model:FindFirstChild("Sign")
+			local plants = model:FindFirstChild("Plants")
+
+			if base and sign then
+				if not plants then
+					plants = Instance.new("Folder")
+					plants.Name = "Plants"
+					plants.Parent = model
+				end
+
+				model.PrimaryPart = base
+				model:SetAttribute("PlotId", plotId)
+				model:SetAttribute("OwnerUserId", 0)
+
+				self.Plots[plotId] = {
+					Id = plotId,
+					Model = model,
+					Base = base,
+					Soil = soil,
+					Sign = sign,
+					PlantsFolder = plants,
+					CFrame = base.CFrame,
+					Owner = nil,
+				}
+			end
+		end
+	end
+
+	return #self.Plots > 0
+end
+
+function GardenService:BuildWorld()
+	local root = Workspace:FindFirstChild(Config.WorldFolderName)
+
+	if root and root:GetAttribute("GeneratedBy") == "MapBuilder" and self:IndexExistingWorld(root) then
+		return
+	end
+
+	if not root then
+		root = Instance.new("Folder")
+		root.Name = Config.WorldFolderName
+		root.Parent = Workspace
+	else
+		root:ClearAllChildren()
+	end
+
+	root:SetAttribute("GeneratedBy", "MutationGardenWars")
+	self.Root = root
+
+	local lobby = Instance.new("Folder")
+	lobby.Name = "Lobby"
+	lobby.Parent = root
+
+	createPart(lobby, "LobbyBase", Vector3.new(70, 1, 70), CFrame.new(0, 0, 0), Color3.fromRGB(95, 219, 138), Enum.Material.Grass)
+	createPart(lobby, "ShopKiosk", Vector3.new(14, 10, 8), CFrame.new(-18, 5.5, -14), Color3.fromRGB(255, 214, 89), Enum.Material.SmoothPlastic)
+	createPart(lobby, "RebirthPortal", Vector3.new(8, 12, 2), CFrame.new(18, 6.5, -14), Color3.fromRGB(83, 233, 255), Enum.Material.Neon)
+
+	local spawn = Instance.new("SpawnLocation")
+	spawn.Name = "MutationSpawn"
+	spawn.Anchored = true
+	spawn.Size = Vector3.new(10, 1, 10)
+	spawn.CFrame = CFrame.new(0, 1, 10)
+	spawn.Color = Color3.fromRGB(255, 255, 255)
+	spawn.Material = Enum.Material.Neon
+	spawn.Neutral = true
+	spawn.Parent = lobby
+
+	local plotsFolder = Instance.new("Folder")
+	plotsFolder.Name = "Plots"
+	plotsFolder.Parent = root
+
+	self.Plots = {}
+
+	for plotId = 1, Config.PlotCount do
+		local angle = ((plotId - 1) / Config.PlotCount) * math.pi * 2
+		local radius = Config.PlotSpacing
+		local position = Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+		local cframe = CFrame.new(position, Vector3.new(0, 0, 0))
+		local model = Instance.new("Model")
+		model.Name = ("Plot_%02d"):format(plotId)
+		model:SetAttribute("PlotId", plotId)
+		model:SetAttribute("OwnerUserId", 0)
+		model.Parent = plotsFolder
+
+		local base = createPart(model, "Base", Config.PlotSize, cframe, Color3.fromRGB(79, 197, 108), Enum.Material.Grass)
+		local soil = createPart(model, "Soil", Vector3.new(34, 0.35, 34), cframe * CFrame.new(0, 0.7, 0), Color3.fromRGB(116, 79, 48), Enum.Material.Ground)
+		local sign = createPart(model, "Sign", Vector3.new(9, 5, 1), cframe * CFrame.new(0, 4, -24), Color3.fromRGB(34, 47, 56), Enum.Material.Wood)
+		createBillboard(sign, "Open Garden")
+
+		local slots = Instance.new("Folder")
+		slots.Name = "Slots"
+		slots.Parent = model
+
+		local plants = Instance.new("Folder")
+		plants.Name = "Plants"
+		plants.Parent = model
+
+		for slotIndex = 1, Config.BaseMaxPlants + Config.VipExtraPlantSlots do
+			local marker = createPart(slots, ("Slot_%02d"):format(slotIndex), Vector3.new(4, 0.12, 4), computeSlotCFrame(cframe, slotIndex) * CFrame.new(0, -1.65, 0), Color3.fromRGB(92, 64, 42), Enum.Material.SmoothPlastic)
+			marker.Transparency = slotIndex > Config.BaseMaxPlants and 0.72 or 0.45
+			marker.CanCollide = false
+		end
+
+		model.PrimaryPart = base
+		self.Plots[plotId] = {
+			Id = plotId,
+			Model = model,
+			Base = base,
+			Soil = soil,
+			Sign = sign,
+			PlantsFolder = plants,
+			CFrame = cframe,
+			Owner = nil,
+		}
+	end
+end
+
+function GardenService:AssignPlot(player)
+	for _, plot in ipairs(self.Plots) do
+		if not plot.Owner then
+			plot.Owner = player
+			plot.Model:SetAttribute("OwnerUserId", player.UserId)
+			player:SetAttribute("PlotId", plot.Id)
+			self:UpdatePlotSign(plot)
+
+			if self.CharacterConnections[player] then
+				self.CharacterConnections[player]:Disconnect()
+			end
+
+			self.CharacterConnections[player] = player.CharacterAdded:Connect(function()
+				task.wait(0.25)
+				self:TeleportToPlot(player)
+			end)
+
+			task.defer(function()
+				self:TeleportToPlot(player)
+			end)
+
+			return plot
+		end
+	end
+
+	self.Context.Services.DataService:Notify(player, "All gardens are full right now.", "Warning")
+	return nil
+end
+
+function GardenService:ReleasePlot(player)
+	local plot = self:GetPlot(player)
+
+	if not plot then
+		return
+	end
+
+	plot.Owner = nil
+	plot.Model:SetAttribute("OwnerUserId", 0)
+	player:SetAttribute("PlotId", nil)
+
+	if self.CharacterConnections[player] then
+		self.CharacterConnections[player]:Disconnect()
+		self.CharacterConnections[player] = nil
+	end
+
+	self:UpdatePlotSign(plot)
+end
+
+function GardenService:UpdatePlotSign(plot)
+	local billboard = plot.Sign:FindFirstChild("PlotBillboard") or plot.Sign:FindFirstChild("BillboardLabel")
+	local label = billboard and (billboard:FindFirstChild("Label") or billboard:FindFirstChildWhichIsA("TextLabel", true))
+
+	if label and plot.Owner then
+		label.Text = plot.Owner.DisplayName .. "'s Garden"
+		label.BackgroundColor3 = Color3.fromRGB(29, 79, 49)
+		plot.Base.Color = Color3.fromRGB(91, 217, 126)
+	elseif label then
+		label.Text = "Open Garden"
+		label.BackgroundColor3 = Color3.fromRGB(21, 30, 27)
+		plot.Base.Color = Color3.fromRGB(79, 197, 108)
+	end
+end
+
+function GardenService:GetPlot(player)
+	local plotId = player:GetAttribute("PlotId")
+
+	if not plotId then
+		return nil
+	end
+
+	return self.Plots[plotId]
+end
+
+function GardenService:GetPlotByUserId(userId)
+	for _, plot in ipairs(self.Plots) do
+		if plot.Owner and plot.Owner.UserId == userId then
+			return plot
+		end
+	end
+
+	return nil
+end
+
+function GardenService:GetSlotCFrameFromPlot(plotModel, slotIndex)
+	local plotId = plotModel:GetAttribute("PlotId")
+	local plot = self.Plots[plotId]
+	local cframe = plot and plot.CFrame or plotModel:GetPivot()
+
+	return computeSlotCFrame(cframe, slotIndex)
+end
+
+function GardenService:GetSlotCFrame(player, slotIndex)
+	local plot = self:GetPlot(player)
+
+	if not plot then
+		return nil
+	end
+
+	return self:GetSlotCFrameFromPlot(plot.Model, slotIndex)
+end
+
+function GardenService:GetFreeSlot(player, plants, maxPlants)
+	local used = {}
+
+	for _, plant in ipairs(plants) do
+		if plant.SlotIndex and plant.SlotIndex > 0 then
+			used[plant.SlotIndex] = true
+		end
+	end
+
+	for slotIndex = 1, maxPlants do
+		if not used[slotIndex] then
+			return slotIndex
+		end
+	end
+
+	return nil
+end
+
+function GardenService:TeleportToPlot(player)
+	local plot = self:GetPlot(player)
+
+	if not plot then
+		return
+	end
+
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+
+	if root then
+		root.CFrame = plot.CFrame * CFrame.new(0, 6, 25)
+	end
+end
+
+function GardenService:GetPlayersNearPlayer(player, maxDistance)
+	local plot = self:GetPlot(player)
+	local nearby = {}
+
+	if not plot then
+		return nearby
+	end
+
+	maxDistance = maxDistance or 80
+
+	for _, otherPlayer in ipairs(Players:GetPlayers()) do
+		if otherPlayer ~= player then
+			local otherPlot = self:GetPlot(otherPlayer)
+
+			if otherPlot and (otherPlot.CFrame.Position - plot.CFrame.Position).Magnitude <= maxDistance then
+				table.insert(nearby, otherPlayer)
+			end
+		end
+	end
+
+	return nearby
+end
+
+return GardenService
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="Script" referent="10">
+      <Properties>
+        <string name="Name">Main</string>
+        <token name="RunContext">0</token>
+        <string name="Source"><![CDATA[local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerScriptService = game:GetService("ServerScriptService")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+
+local function getOrCreate(parent, className, name)
+	local instance = parent:FindFirstChild(name)
+
+	if instance and instance.ClassName ~= className then
+		instance:Destroy()
+		instance = nil
+	end
+
+	if not instance then
+		instance = Instance.new(className)
+		instance.Name = name
+		instance.Parent = parent
+	end
+
+	return instance
+end
+
+local remotesFolder = getOrCreate(ReplicatedStorage, "Folder", "Remotes")
+local remotes = {}
+
+for remoteKey, remoteName in pairs(Config.RemoteNames) do
+	local className = remoteKey == "GetSnapshot" and "RemoteFunction" or "RemoteEvent"
+	remotes[remoteKey] = getOrCreate(remotesFolder, className, remoteName)
+end
+
+local serviceNames = {
+	"DataService",
+	"GardenService",
+	"PlantService",
+	"ShopService",
+	"RebirthService",
+	"RewardService",
+	"MonetizationService",
+	"TradeService",
+}
+
+local services = {}
+
+for _, serviceName in ipairs(serviceNames) do
+	services[serviceName] = require(ServerScriptService:WaitForChild(serviceName))
+end
+
+local context = {
+	Config = Config,
+	Remotes = remotes,
+	Services = services,
+}
+
+for _, serviceName in ipairs(serviceNames) do
+	local service = services[serviceName]
+
+	if service.Init then
+		service:Init(context)
+	end
+end
+
+for _, serviceName in ipairs(serviceNames) do
+	local service = services[serviceName]
+
+	if service.Start then
+		service:Start()
+	end
+end
+
+local function setupPlayer(player)
+	services.DataService:LoadPlayer(player)
+	services.GardenService:AssignPlot(player)
+	services.PlantService:LoadPlayerPlants(player)
+	services.DataService:Push(player)
+end
+
+local function cleanupPlayer(player)
+	services.PlantService:HandlePlayerRemoving(player)
+	services.GardenService:ReleasePlot(player)
+	services.DataService:SavePlayer(player)
+	services.DataService:ForgetPlayer(player)
+end
+
+Players.PlayerAdded:Connect(setupPlayer)
+Players.PlayerRemoving:Connect(cleanupPlayer)
+
+for _, player in ipairs(Players:GetPlayers()) do
+	task.spawn(setupPlayer, player)
+end
+
+game:BindToClose(function()
+	for _, player in ipairs(Players:GetPlayers()) do
+		services.DataService:SavePlayer(player)
+	end
+end)
+
+print("[Mutation Garden Wars] Server online.")
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="Script" referent="11">
+      <Properties>
+        <string name="Name">MapBuilder</string>
+        <token name="RunContext">0</token>
+        <string name="Source"><![CDATA[-- Mutation Garden Wars map generator
+-- Place this Script in ServerScriptService. It creates a complete low-lag map from Roblox parts.
+
+local Lighting = game:GetService("Lighting")
+local Workspace = game:GetService("Workspace")
+
+local MAP_FOLDER_NAME = "MutationGardenWars"
+local PLOT_COUNT = 12
+local PLOT_RADIUS = 118
+local PLOT_SIZE = Vector3.new(44, 1, 44)
+local SLOT_COUNT = 18
+local SLOT_COLUMNS = 6
+local SLOT_SPACING = 6.2
+
+local COLORS = {
+	Grass = Color3.fromRGB(95, 220, 122),
+	GrassDark = Color3.fromRGB(66, 179, 91),
+	Soil = Color3.fromRGB(116, 78, 47),
+	Path = Color3.fromRGB(248, 217, 139),
+	PathEdge = Color3.fromRGB(219, 177, 102),
+	Wood = Color3.fromRGB(139, 88, 48),
+	WoodDark = Color3.fromRGB(95, 60, 38),
+	Stone = Color3.fromRGB(144, 154, 160),
+	StoneDark = Color3.fromRGB(97, 109, 116),
+	Water = Color3.fromRGB(68, 183, 255),
+	Shop = Color3.fromRGB(255, 216, 88),
+	Mutation = Color3.fromRGB(156, 86, 255),
+	Trade = Color3.fromRGB(89, 205, 255),
+	Rebirth = Color3.fromRGB(96, 247, 222),
+	Daily = Color3.fromRGB(255, 174, 66),
+	TextDark = Color3.fromRGB(25, 34, 32),
+	White = Color3.fromRGB(255, 255, 255),
+	Boundary = Color3.fromRGB(255, 255, 255),
+}
+
+local function clearExisting()
+	local existing = Workspace:FindFirstChild(MAP_FOLDER_NAME)
+
+	if existing then
+		existing:Destroy()
+	end
+end
+
+local function part(parent, name, size, cframe, color, material, transparency)
+	local p = Instance.new("Part")
+	p.Name = name
+	p.Anchored = true
+	p.Size = size
+	p.CFrame = cframe
+	p.Color = color
+	p.Material = material or Enum.Material.SmoothPlastic
+	p.Transparency = transparency or 0
+	p.TopSurface = Enum.SurfaceType.Smooth
+	p.BottomSurface = Enum.SurfaceType.Smooth
+	p.Parent = parent
+	return p
+end
+
+local function wedge(parent, name, size, cframe, color, material)
+	local p = Instance.new("WedgePart")
+	p.Name = name
+	p.Anchored = true
+	p.Size = size
+	p.CFrame = cframe
+	p.Color = color
+	p.Material = material or Enum.Material.SmoothPlastic
+	p.TopSurface = Enum.SurfaceType.Smooth
+	p.BottomSurface = Enum.SurfaceType.Smooth
+	p.Parent = parent
+	return p
+end
+
+local function cylinder(parent, name, size, cframe, color, material)
+	local p = part(parent, name, size, cframe, color, material)
+	p.Shape = Enum.PartType.Cylinder
+	return p
+end
+
+local function sphere(parent, name, size, cframe, color, material)
+	local p = part(parent, name, size, cframe, color, material)
+	p.Shape = Enum.PartType.Ball
+	return p
+end
+
+local function neon(parent, name, size, cframe, color, transparency)
+	return part(parent, name, size, cframe, color, Enum.Material.Neon, transparency)
+end
+
+local function labelOn(parentPart, text, face, textColor, bgColor, size)
+	local gui = Instance.new("SurfaceGui")
+	gui.Name = "Label"
+	gui.Face = face or Enum.NormalId.Front
+	gui.LightInfluence = 0
+	gui.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud
+	gui.PixelsPerStud = 48
+	gui.Parent = parentPart
+
+	local label = Instance.new("TextLabel")
+	label.Name = "Label"
+	label.BackgroundColor3 = bgColor or Color3.fromRGB(24, 35, 34)
+	label.BackgroundTransparency = 0.08
+	label.BorderSizePixel = 0
+	label.Font = Enum.Font.GothamBlack
+	label.Text = text
+	label.TextColor3 = textColor or COLORS.White
+	label.TextScaled = true
+	label.TextWrapped = true
+	label.Size = UDim2.fromScale(1, 1)
+	label.Parent = gui
+
+	local padding = Instance.new("UIPadding")
+	padding.PaddingTop = UDim.new(0, 8)
+	padding.PaddingBottom = UDim.new(0, 8)
+	padding.PaddingLeft = UDim.new(0, 8)
+	padding.PaddingRight = UDim.new(0, 8)
+	padding.Parent = label
+
+	return gui
+end
+
+local function billboard(parentPart, text, offset, size, textColor)
+	local gui = Instance.new("BillboardGui")
+	gui.Name = "BillboardLabel"
+	gui.AlwaysOnTop = true
+	gui.LightInfluence = 0
+	gui.Size = size or UDim2.fromOffset(260, 72)
+	gui.StudsOffset = offset or Vector3.new(0, 5, 0)
+	gui.Parent = parentPart
+
+	local label = Instance.new("TextLabel")
+	label.BackgroundColor3 = Color3.fromRGB(25, 35, 34)
+	label.BackgroundTransparency = 0.12
+	label.BorderSizePixel = 0
+	label.Font = Enum.Font.GothamBlack
+	label.Text = text
+	label.TextColor3 = textColor or COLORS.White
+	label.TextScaled = true
+	label.TextWrapped = true
+	label.Size = UDim2.fromScale(1, 1)
+	label.Parent = gui
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 10)
+	corner.Parent = label
+end
+
+local function model(parent, name)
+	local m = Instance.new("Model")
+	m.Name = name
+	m.Parent = parent
+	return m
+end
+
+local function makeTree(parent, position, scale)
+	scale = scale or 1
+	local m = model(parent, "CartoonTree")
+	local trunk = cylinder(m, "Trunk", Vector3.new(2.2 * scale, 7 * scale, 2.2 * scale), CFrame.new(position + Vector3.new(0, 3.5 * scale, 0)), COLORS.Wood, Enum.Material.Wood)
+	local crown = sphere(m, "Crown", Vector3.new(9 * scale, 9 * scale, 9 * scale), CFrame.new(position + Vector3.new(0, 9 * scale, 0)), Color3.fromRGB(42, 190, 95), Enum.Material.SmoothPlastic)
+	local crown2 = sphere(m, "CrownPop", Vector3.new(6.5 * scale, 6.5 * scale, 6.5 * scale), CFrame.new(position + Vector3.new(2.8 * scale, 11.5 * scale, -1.2 * scale)), Color3.fromRGB(84, 224, 111), Enum.Material.SmoothPlastic)
+	m.PrimaryPart = trunk
+	return m
+end
+
+local function makeRock(parent, position, scale)
+	scale = scale or 1
+	local m = model(parent, "SoftRock")
+	sphere(m, "RockA", Vector3.new(5 * scale, 3 * scale, 4 * scale), CFrame.new(position + Vector3.new(0, 1.5 * scale, 0)), COLORS.Stone, Enum.Material.Slate)
+	sphere(m, "RockB", Vector3.new(3.5 * scale, 2.2 * scale, 3.5 * scale), CFrame.new(position + Vector3.new(2 * scale, 1.1 * scale, 1 * scale)), COLORS.StoneDark, Enum.Material.Slate)
+	return m
+end
+
+local function makeFlower(parent, position, color)
+	local m = model(parent, "Flower")
+	cylinder(m, "Stem", Vector3.new(0.18, 1.4, 0.18), CFrame.new(position + Vector3.new(0, 0.7, 0)), Color3.fromRGB(45, 157, 72), Enum.Material.SmoothPlastic)
+	sphere(m, "Bloom", Vector3.new(1.1, 1.1, 1.1), CFrame.new(position + Vector3.new(0, 1.55, 0)), color, Enum.Material.SmoothPlastic)
+	return m
+end
+
+local function makeLamp(parent, position)
+	local m = model(parent, "GardenLamp")
+	cylinder(m, "Post", Vector3.new(0.5, 7, 0.5), CFrame.new(position + Vector3.new(0, 3.5, 0)), Color3.fromRGB(48, 64, 68), Enum.Material.Metal)
+	local head = sphere(m, "Glow", Vector3.new(2.3, 2.3, 2.3), CFrame.new(position + Vector3.new(0, 7.4, 0)), Color3.fromRGB(255, 241, 142), Enum.Material.Neon)
+	local light = Instance.new("PointLight")
+	light.Name = "SoftGlow"
+	light.Brightness = 0.8
+	light.Range = 18
+	light.Color = Color3.fromRGB(255, 244, 174)
+	light.Parent = head
+	return m
+end
+
+local function makeFence(parent, center, length, horizontal)
+	local count = math.floor(length / 7)
+	for i = 0, count do
+		local offset = (i - count / 2) * 7
+		local pos = horizontal and center + Vector3.new(offset, 0, 0) or center + Vector3.new(0, 0, offset)
+		part(parent, "FencePost", Vector3.new(1, 4, 1), CFrame.new(pos + Vector3.new(0, 2, 0)), COLORS.Wood, Enum.Material.Wood)
+	end
+
+	local railSize = horizontal and Vector3.new(length, 0.7, 0.8) or Vector3.new(0.8, 0.7, length)
+	part(parent, "FenceRailTop", railSize, CFrame.new(center + Vector3.new(0, 3.2, 0)), COLORS.WoodDark, Enum.Material.Wood)
+	part(parent, "FenceRailMid", railSize, CFrame.new(center + Vector3.new(0, 1.7, 0)), COLORS.WoodDark, Enum.Material.Wood)
+end
+
+local function makeSign(parent, name, cframe, text, color)
+	local m = model(parent, name)
+	part(m, "PostA", Vector3.new(0.6, 5, 0.6), cframe * CFrame.new(-3, 2.5, 0), COLORS.WoodDark, Enum.Material.Wood)
+	part(m, "PostB", Vector3.new(0.6, 5, 0.6), cframe * CFrame.new(3, 2.5, 0), COLORS.WoodDark, Enum.Material.Wood)
+	local face = part(m, "Face", Vector3.new(8, 4.2, 0.6), cframe * CFrame.new(0, 5.5, 0), color or Color3.fromRGB(33, 48, 42), Enum.Material.SmoothPlastic)
+	labelOn(face, text, Enum.NormalId.Front)
+	return m
+end
+
+local function setupLighting()
+	Lighting.ClockTime = 14.2
+	Lighting.Brightness = 3
+	Lighting.Ambient = Color3.fromRGB(130, 170, 155)
+	Lighting.OutdoorAmbient = Color3.fromRGB(185, 220, 205)
+	Lighting.ColorShift_Top = Color3.fromRGB(255, 244, 207)
+	Lighting.ColorShift_Bottom = Color3.fromRGB(122, 205, 167)
+	Lighting.GlobalShadows = true
+	Lighting.EnvironmentDiffuseScale = 0.45
+	Lighting.EnvironmentSpecularScale = 0.25
+
+	local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere")
+	atmosphere.Name = "CozyGardenAtmosphere"
+	atmosphere.Density = 0.22
+	atmosphere.Offset = 0.18
+	atmosphere.Color = Color3.fromRGB(213, 245, 255)
+	atmosphere.Decay = Color3.fromRGB(255, 228, 184)
+	atmosphere.Glare = 0.1
+	atmosphere.Haze = 1.1
+	atmosphere.Parent = Lighting
+
+	local bloom = Lighting:FindFirstChildOfClass("BloomEffect") or Instance.new("BloomEffect")
+	bloom.Name = "CartoonBloom"
+	bloom.Intensity = 0.15
+	bloom.Size = 32
+	bloom.Threshold = 1.4
+	bloom.Parent = Lighting
+
+	local colorCorrection = Lighting:FindFirstChildOfClass("ColorCorrectionEffect") or Instance.new("ColorCorrectionEffect")
+	colorCorrection.Name = "BrightCartoonColor"
+	colorCorrection.Brightness = 0.05
+	colorCorrection.Contrast = 0.08
+	colorCorrection.Saturation = 0.18
+	colorCorrection.TintColor = Color3.fromRGB(255, 252, 236)
+	colorCorrection.Parent = Lighting
+end
+
+local function makeSpawnPlaza(root)
+	local plaza = model(root, "SpawnPlaza")
+	part(plaza, "MainIsland", Vector3.new(96, 1, 96), CFrame.new(0, 0, 0), COLORS.Grass, Enum.Material.Grass)
+	cylinder(plaza, "RoundPlaza", Vector3.new(70, 2, 70), CFrame.new(0, 1.05, 0), COLORS.Path, Enum.Material.SmoothPlastic)
+	cylinder(plaza, "CenterBadge", Vector3.new(24, 2.3, 24), CFrame.new(0, 2.2, 0), Color3.fromRGB(255, 126, 183), Enum.Material.Neon)
+
+	local spawn = Instance.new("SpawnLocation")
+	spawn.Name = "MutationGardenSpawn"
+	spawn.Anchored = true
+	spawn.Neutral = true
+	spawn.Duration = 0
+	spawn.Size = Vector3.new(13, 1, 13)
+	spawn.CFrame = CFrame.new(0, 3, 10)
+	spawn.Color = Color3.fromRGB(255, 255, 255)
+	spawn.Material = Enum.Material.Neon
+	spawn.Parent = plaza
+	billboard(spawn, "SPAWN\nStart here!", Vector3.new(0, 5, 0), UDim2.fromOffset(220, 72))
+
+	makeSign(plaza, "WelcomeSign", CFrame.new(0, 1, -33), "MUTATION\nGARDEN WARS", Color3.fromRGB(43, 70, 60))
+	makeLamp(plaza, Vector3.new(-28, 1, -26))
+	makeLamp(plaza, Vector3.new(28, 1, -26))
+	makeLamp(plaza, Vector3.new(-28, 1, 26))
+	makeLamp(plaza, Vector3.new(28, 1, 26))
+
+	return plaza
+end
+
+local function makeRoads(root)
+	local roads = model(root, "Paths")
+	local roadColor = COLORS.Path
+	part(roads, "NorthPath", Vector3.new(16, 0.4, 130), CFrame.new(0, 1.4, -75), roadColor, Enum.Material.SmoothPlastic)
+	part(roads, "SouthPath", Vector3.new(16, 0.4, 130), CFrame.new(0, 1.4, 75), roadColor, Enum.Material.SmoothPlastic)
+	part(roads, "EastPath", Vector3.new(130, 0.4, 16), CFrame.new(75, 1.4, 0), roadColor, Enum.Material.SmoothPlastic)
+	part(roads, "WestPath", Vector3.new(130, 0.4, 16), CFrame.new(-75, 1.4, 0), roadColor, Enum.Material.SmoothPlastic)
+	cylinder(roads, "PlotRingPath", Vector3.new(230, 0.45, 230), CFrame.new(0, 1.35, 0), COLORS.PathEdge, Enum.Material.SmoothPlastic)
+	cylinder(roads, "PlotRingGrassCutout", Vector3.new(205, 0.5, 205), CFrame.new(0, 1.42, 0), COLORS.Grass, Enum.Material.Grass)
+end
+
+local function makeShop(root)
+	local shop = model(root, "SeedShop")
+	local base = part(shop, "ShopBase", Vector3.new(34, 1, 28), CFrame.new(-42, 1.6, -34), COLORS.Shop, Enum.Material.SmoothPlastic)
+	part(shop, "Counter", Vector3.new(28, 5, 4), CFrame.new(-42, 4.5, -43), Color3.fromRGB(255, 184, 74), Enum.Material.SmoothPlastic)
+	part(shop, "BackWall", Vector3.new(32, 15, 2), CFrame.new(-42, 9, -48), Color3.fromRGB(255, 232, 130), Enum.Material.SmoothPlastic)
+	local roof = wedge(shop, "TiltedAwning", Vector3.new(38, 8, 10), CFrame.new(-42, 16, -45) * CFrame.Angles(0, math.rad(180), 0), Color3.fromRGB(255, 113, 105), Enum.Material.SmoothPlastic)
+	labelOn(base, "SEED SHOP\nBuy silly seeds", Enum.NormalId.Top, COLORS.TextDark, Color3.fromRGB(255, 242, 159))
+	billboard(roof, "SEED SHOP", Vector3.new(0, 5, 0), UDim2.fromOffset(260, 64), Color3.fromRGB(255, 244, 174))
+
+	local seeds = {
+		{"Bean", Color3.fromRGB(98, 214, 97), -54},
+		{"Moss", Color3.fromRGB(65, 228, 176), -46},
+		{"Cosmic", Color3.fromRGB(99, 239, 255), -38},
+		{"Brainrot", Color3.fromRGB(211, 100, 255), -30},
+	}
+
+	for _, seed in ipairs(seeds) do
+		sphere(shop, seed[1] .. "Display", Vector3.new(3, 3, 3), CFrame.new(seed[3], 7.3, -41.5), seed[2], Enum.Material.Neon)
+	end
+
+	return shop
+end
+
+local function makeMutationMachine(root)
+	local lab = model(root, "MutationMachineArea")
+	part(lab, "LabFloor", Vector3.new(34, 1, 30), CFrame.new(42, 1.6, -34), Color3.fromRGB(223, 214, 255), Enum.Material.SmoothPlastic)
+	local vat = cylinder(lab, "MutationVat", Vector3.new(10, 12, 10), CFrame.new(42, 8, -36), COLORS.Mutation, Enum.Material.Neon)
+	vat.Transparency = 0.18
+	cylinder(lab, "VatRimTop", Vector3.new(13, 1, 13), CFrame.new(42, 14.2, -36), Color3.fromRGB(84, 60, 120), Enum.Material.Metal)
+	cylinder(lab, "VatRimBottom", Vector3.new(13, 1, 13), CFrame.new(42, 1.9, -36), Color3.fromRGB(84, 60, 120), Enum.Material.Metal)
+	part(lab, "ButtonPanel", Vector3.new(10, 6, 2), CFrame.new(28, 5.5, -36), Color3.fromRGB(48, 55, 72), Enum.Material.Metal)
+	neon(lab, "BigRedButton", Vector3.new(4, 1.2, 4), CFrame.new(28, 9.2, -36), Color3.fromRGB(255, 66, 66))
+	sphere(lab, "BubbleA", Vector3.new(2, 2, 2), CFrame.new(39, 15, -33), Color3.fromRGB(113, 255, 169), Enum.Material.Neon)
+	sphere(lab, "BubbleB", Vector3.new(1.5, 1.5, 1.5), CFrame.new(46, 16.5, -38), Color3.fromRGB(255, 119, 233), Enum.Material.Neon)
+	sphere(lab, "BubbleC", Vector3.new(1.8, 1.8, 1.8), CFrame.new(42, 18, -36), Color3.fromRGB(105, 229, 255), Enum.Material.Neon)
+	billboard(vat, "MUTATION\nMACHINE", Vector3.new(0, 10, 0), UDim2.fromOffset(270, 76), Color3.fromRGB(236, 217, 255))
+	return lab
+end
+
+local function makeTradingPlaza(root)
+	local trade = model(root, "TradingPlaza")
+	part(trade, "TradeFloor", Vector3.new(54, 1, 44), CFrame.new(0, 1.4, 66), Color3.fromRGB(191, 239, 255), Enum.Material.SmoothPlastic)
+	cylinder(trade, "TradeCircle", Vector3.new(36, 1, 36), CFrame.new(0, 2.2, 66), COLORS.Trade, Enum.Material.Neon)
+	part(trade, "LeftBooth", Vector3.new(16, 8, 10), CFrame.new(-16, 5.6, 66), Color3.fromRGB(255, 137, 189), Enum.Material.SmoothPlastic)
+	part(trade, "RightBooth", Vector3.new(16, 8, 10), CFrame.new(16, 5.6, 66), Color3.fromRGB(105, 225, 151), Enum.Material.SmoothPlastic)
+	part(trade, "HandshakeBridge", Vector3.new(10, 2, 7), CFrame.new(0, 7.8, 66), Color3.fromRGB(255, 255, 255), Enum.Material.Neon)
+	makeSign(trade, "TradeSign", CFrame.new(0, 1, 41), "TRADING\nPLAZA", Color3.fromRGB(41, 87, 103))
+	return trade
+end
+
+local function makeRebirthShrine(root)
+	local shrine = model(root, "RebirthShrine")
+	part(shrine, "ShrineIsland", Vector3.new(46, 1, 34), CFrame.new(0, 1.5, -82), Color3.fromRGB(204, 255, 247), Enum.Material.SmoothPlastic)
+	cylinder(shrine, "ShrineBase", Vector3.new(22, 4, 22), CFrame.new(0, 4.5, -82), Color3.fromRGB(91, 224, 210), Enum.Material.Neon)
+	cylinder(shrine, "PortalRing", Vector3.new(20, 3, 20), CFrame.new(0, 14, -82) * CFrame.Angles(math.rad(90), 0, 0), COLORS.Rebirth, Enum.Material.Neon)
+	part(shrine, "PortalCore", Vector3.new(16, 16, 1.5), CFrame.new(0, 14, -82), Color3.fromRGB(255, 255, 255), Enum.Material.Neon, 0.28)
+	for i = 1, 6 do
+		local angle = (i / 6) * math.pi * 2
+		local pos = Vector3.new(math.cos(angle) * 16, 2, -82 + math.sin(angle) * 16)
+		local pillar = cylinder(shrine, "GlowPillar", Vector3.new(2, 10, 2), CFrame.new(pos + Vector3.new(0, 5, 0)), Color3.fromRGB(145, 119, 255), Enum.Material.Neon)
+		sphere(shrine, "PillarOrb", Vector3.new(3.5, 3.5, 3.5), CFrame.new(pillar.CFrame.Position + Vector3.new(0, 6, 0)), Color3.fromRGB(255, 242, 139), Enum.Material.Neon)
+	end
+	billboard(shrine.PortalRing, "REBIRTH\nSHRINE", Vector3.new(0, 13, 0), UDim2.fromOffset(260, 72), Color3.fromRGB(210, 255, 249))
+	return shrine
+end
+
+local function makeDailyChest(root)
+	local daily = model(root, "DailyRewardChest")
+	part(daily, "Base", Vector3.new(18, 1, 18), CFrame.new(-35, 1.5, 28), Color3.fromRGB(255, 232, 153), Enum.Material.SmoothPlastic)
+	part(daily, "ChestBody", Vector3.new(12, 7, 8), CFrame.new(-35, 5.4, 28), COLORS.Daily, Enum.Material.Wood)
+	cylinder(daily, "ChestLid", Vector3.new(8, 12, 12), CFrame.new(-35, 9.2, 28) * CFrame.Angles(0, 0, math.rad(90)), Color3.fromRGB(255, 196, 76), Enum.Material.Wood)
+	neon(daily, "LockGlow", Vector3.new(2, 2, 1), CFrame.new(-35, 5.5, 23.7), Color3.fromRGB(255, 255, 255))
+	billboard(daily.ChestBody, "DAILY\nREWARD", Vector3.new(0, 8, 0), UDim2.fromOffset(230, 68), Color3.fromRGB(255, 237, 169))
+	return daily
+end
+
+local function makeLeaderboard(root)
+	local board = model(root, "LeaderboardWall")
+	part(board, "Wall", Vector3.new(34, 22, 2), CFrame.new(35, 12, 30), Color3.fromRGB(35, 48, 56), Enum.Material.SmoothPlastic)
+	labelOn(board.Wall, "LEADERBOARDS\n\nTop Cash\nTop Rebirths\nRarest Mutations\nMost Stolen Plants", Enum.NormalId.Front, Color3.fromRGB(255, 255, 255), Color3.fromRGB(27, 38, 44))
+	part(board, "TrimTop", Vector3.new(38, 2, 3), CFrame.new(35, 24, 30), Color3.fromRGB(255, 216, 88), Enum.Material.Neon)
+	part(board, "TrimBottom", Vector3.new(38, 2, 3), CFrame.new(35, 1, 30), Color3.fromRGB(255, 216, 88), Enum.Material.Neon)
+	return board
+end
+
+local function makeTutorialSigns(root)
+	local signs = model(root, "TutorialSigns")
+	makeSign(signs, "TutorialPlant", CFrame.new(-18, 1, 18) * CFrame.Angles(0, math.rad(35), 0), "1. PLANT\nTap Plant", Color3.fromRGB(43, 88, 58))
+	makeSign(signs, "TutorialGrow", CFrame.new(-10, 1, 32) * CFrame.Angles(0, math.rad(15), 0), "2. WAIT\nPlants grow", Color3.fromRGB(43, 73, 88))
+	makeSign(signs, "TutorialHarvest", CFrame.new(10, 1, 32) * CFrame.Angles(0, math.rad(-15), 0), "3. HARVEST\nGet cash", Color3.fromRGB(88, 65, 43))
+	makeSign(signs, "TutorialRaid", CFrame.new(18, 1, 18) * CFrame.Angles(0, math.rad(-35), 0), "4. RAID\nOnly grown plants", Color3.fromRGB(88, 43, 66))
+	return signs
+end
+
+local function plotSlotCFrame(plotCFrame, slotIndex)
+	local row = math.floor((slotIndex - 1) / SLOT_COLUMNS)
+	local column = (slotIndex - 1) % SLOT_COLUMNS
+	local rows = math.ceil(SLOT_COUNT / SLOT_COLUMNS)
+	local x = (column - ((SLOT_COLUMNS - 1) / 2)) * SLOT_SPACING
+	local z = (row - ((rows - 1) / 2)) * SLOT_SPACING
+	return plotCFrame * CFrame.new(x, 2.15, z)
+end
+
+local function makePlot(parent, index)
+	local angle = ((index - 1) / PLOT_COUNT) * math.pi * 2
+	local position = Vector3.new(math.cos(angle) * PLOT_RADIUS, 1, math.sin(angle) * PLOT_RADIUS)
+	local plotCFrame = CFrame.new(position, Vector3.new(0, 1, 0))
+
+	local plot = model(parent, ("Plot_%02d"):format(index))
+	plot:SetAttribute("PlotId", index)
+	plot:SetAttribute("OwnerUserId", 0)
+
+	local base = part(plot, "Base", PLOT_SIZE, plotCFrame, index % 2 == 0 and COLORS.Grass or COLORS.GrassDark, Enum.Material.Grass)
+	local soil = part(plot, "Soil", Vector3.new(36, 0.45, 34), plotCFrame * CFrame.new(0, 0.75, 0), COLORS.Soil, Enum.Material.Ground)
+	local trim = part(plot, "PlotTrim", Vector3.new(48, 1.2, 48), plotCFrame * CFrame.new(0, -0.1, 0), COLORS.Wood, Enum.Material.Wood)
+	trim.Transparency = 0.35
+	local sign = part(plot, "Sign", Vector3.new(11, 5, 1), plotCFrame * CFrame.new(0, 4.2, -25), Color3.fromRGB(30, 46, 42), Enum.Material.Wood)
+	billboard(sign, "OPEN GARDEN\nPlot " .. index, Vector3.new(0, 5.2, 0), UDim2.fromOffset(220, 72))
+
+	local slots = Instance.new("Folder")
+	slots.Name = "Slots"
+	slots.Parent = plot
+
+	local plants = Instance.new("Folder")
+	plants.Name = "Plants"
+	plants.Parent = plot
+
+	for slotIndex = 1, SLOT_COUNT do
+		local marker = part(slots, ("Slot_%02d"):format(slotIndex), Vector3.new(3.8, 0.16, 3.8), plotSlotCFrame(plotCFrame, slotIndex) * CFrame.new(0, -1.55, 0), Color3.fromRGB(91, 61, 40), Enum.Material.SmoothPlastic, slotIndex > 12 and 0.65 or 0.38)
+		marker.CanCollide = false
+	end
+
+	makeFence(plot, (plotCFrame * CFrame.new(0, 0, -23)).Position, 40, true)
+	makeFence(plot, (plotCFrame * CFrame.new(-23, 0, 0)).Position, 40, false)
+	makeFence(plot, (plotCFrame * CFrame.new(23, 0, 0)).Position, 40, false)
+
+	plot.PrimaryPart = base
+	return plot
+end
+
+local function makePlots(root)
+	local plots = Instance.new("Folder")
+	plots.Name = "Plots"
+	plots.Parent = root
+
+	for index = 1, PLOT_COUNT do
+		makePlot(plots, index)
+	end
+end
+
+local function makeWaterAndDecor(root)
+	local decor = model(root, "Decorations")
+	cylinder(decor, "Pond", Vector3.new(34, 0.8, 24), CFrame.new(-72, 1.25, 34), COLORS.Water, Enum.Material.SmoothPlastic)
+	neon(decor, "PondSparkleA", Vector3.new(4, 0.2, 4), CFrame.new(-78, 1.9, 31), Color3.fromRGB(210, 250, 255), 0.15)
+	neon(decor, "PondSparkleB", Vector3.new(3, 0.2, 3), CFrame.new(-66, 1.9, 39), Color3.fromRGB(210, 250, 255), 0.15)
+
+	local flowerColors = {
+		Color3.fromRGB(255, 102, 158),
+		Color3.fromRGB(255, 225, 94),
+		Color3.fromRGB(112, 232, 255),
+		Color3.fromRGB(174, 113, 255),
+		Color3.fromRGB(255, 140, 80),
+	}
+
+	for i = 1, 24 do
+		local angle = (i / 24) * math.pi * 2
+		local radius = 48 + ((i % 3) * 10)
+		local pos = Vector3.new(math.cos(angle) * radius, 1.2, math.sin(angle) * radius)
+		makeFlower(decor, pos, flowerColors[(i % #flowerColors) + 1])
+	end
+
+	for i = 1, 18 do
+		local angle = (i / 18) * math.pi * 2
+		local radius = 155 + ((i % 2) * 12)
+		makeTree(decor, Vector3.new(math.cos(angle) * radius, 1, math.sin(angle) * radius), 0.85 + ((i % 3) * 0.12))
+	end
+
+	for i = 1, 12 do
+		local angle = (i / 12) * math.pi * 2 + 0.22
+		makeRock(decor, Vector3.new(math.cos(angle) * 142, 1, math.sin(angle) * 142), 0.8 + ((i % 2) * 0.25))
+	end
+
+	for i = 1, 12 do
+		local angle = (i / 12) * math.pi * 2
+		makeLamp(decor, Vector3.new(math.cos(angle) * 82, 1, math.sin(angle) * 82))
+	end
+end
+
+local function makeBoundaries(root)
+	local safety = model(root, "Safety")
+	local floor = part(safety, "AntiFallSafetyFloor", Vector3.new(420, 1, 420), CFrame.new(0, -18, 0), Color3.fromRGB(74, 202, 126), Enum.Material.SmoothPlastic, 0.65)
+	floor.CanCollide = true
+
+	local wallHeight = 80
+	local half = 205
+	local walls = {
+		{"NorthInvisibleBoundary", Vector3.new(420, wallHeight, 2), CFrame.new(0, wallHeight / 2, -half)},
+		{"SouthInvisibleBoundary", Vector3.new(420, wallHeight, 2), CFrame.new(0, wallHeight / 2, half)},
+		{"EastInvisibleBoundary", Vector3.new(2, wallHeight, 420), CFrame.new(half, wallHeight / 2, 0)},
+		{"WestInvisibleBoundary", Vector3.new(2, wallHeight, 420), CFrame.new(-half, wallHeight / 2, 0)},
+	}
+
+	for _, wall in ipairs(walls) do
+		local boundary = part(safety, wall[1], wall[2], wall[3], COLORS.Boundary, Enum.Material.SmoothPlastic, 1)
+		boundary.CanCollide = true
+	end
+end
+
+local function makeBaseTerrain(root)
+	local base = model(root, "BaseTerrain")
+	part(base, "MainGrassField", Vector3.new(390, 1, 390), CFrame.new(0, -0.6, 0), COLORS.Grass, Enum.Material.Grass)
+	part(base, "OuterGrassBlend", Vector3.new(430, 1, 430), CFrame.new(0, -1.2, 0), Color3.fromRGB(74, 198, 116), Enum.Material.Grass)
+end
+
+clearExisting()
+setupLighting()
+
+local root = Instance.new("Folder")
+root.Name = MAP_FOLDER_NAME
+root:SetAttribute("GeneratedBy", "MapBuilder")
+root:SetAttribute("PlotCount", PLOT_COUNT)
+root.Parent = Workspace
+
+makeBaseTerrain(root)
+makeRoads(root)
+makeSpawnPlaza(root)
+makeShop(root)
+makeMutationMachine(root)
+makeTradingPlaza(root)
+makeRebirthShrine(root)
+makeDailyChest(root)
+makeLeaderboard(root)
+makeTutorialSigns(root)
+makePlots(root)
+makeWaterAndDecor(root)
+makeBoundaries(root)
+
+print("[Mutation Garden Wars] MapBuilder generated " .. PLOT_COUNT .. " plots and full plaza map.")
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="12">
+      <Properties>
+        <string name="Name">MonetizationService</string>
+        <string name="Source"><![CDATA[local MarketplaceService = game:GetService("MarketplaceService")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+local Utility = require(Modules:WaitForChild("Utility"))
+
+local MonetizationService = {}
+
+MonetizationService.GamePassCache = {}
+MonetizationService.ProductIdToKey = {}
+
+function MonetizationService:Init(context)
+	self.Context = context
+	self.Remotes = context.Remotes
+
+	for productKey, product in pairs(Config.DeveloperProducts) do
+		if product.Id and product.Id > 0 then
+			self.ProductIdToKey[product.Id] = productKey
+		end
+	end
+end
+
+function MonetizationService:Start()
+	self.Remotes.RequestProductPurchase.OnServerEvent:Connect(function(player, productKey)
+		self:PromptProduct(player, productKey)
+	end)
+
+	self.Remotes.RequestGamePassPurchase.OnServerEvent:Connect(function(player, gamePassKey)
+		self:PromptGamePass(player, gamePassKey)
+	end)
+
+	MarketplaceService.ProcessReceipt = function(receiptInfo)
+		return self:ProcessReceipt(receiptInfo)
+	end
+
+	MarketplaceService.PromptGamePassPurchaseFinished:Connect(function(player, gamePassId, wasPurchased)
+		if not wasPurchased then
+			return
+		end
+
+		for gamePassKey, gamePass in pairs(Config.GamePasses) do
+			if gamePass.Id == gamePassId then
+				self.GamePassCache[player.UserId .. ":" .. gamePassKey] = true
+				self.Context.Services.DataService:Notify(player, gamePass.DisplayName .. " unlocked.", "Success")
+				self.Context.Services.DataService:Push(player)
+				break
+			end
+		end
+	end)
+end
+
+function MonetizationService:PromptProduct(player, productKey)
+	local product = Config.DeveloperProducts[productKey]
+	local dataService = self.Context.Services.DataService
+
+	if not product then
+		return
+	end
+
+	if not product.Id or product.Id <= 0 then
+		dataService:Notify(player, product.DisplayName .. " is wired. Add the real product ID in Config.lua.", "Warning")
+		return
+	end
+
+	MarketplaceService:PromptProductPurchase(player, product.Id)
+end
+
+function MonetizationService:PromptGamePass(player, gamePassKey)
+	local gamePass = Config.GamePasses[gamePassKey]
+	local dataService = self.Context.Services.DataService
+
+	if not gamePass then
+		return
+	end
+
+	if not gamePass.Id or gamePass.Id <= 0 then
+		dataService:Notify(player, gamePass.DisplayName .. " is wired. Add the real game pass ID in Config.lua.", "Warning")
+		return
+	end
+
+	MarketplaceService:PromptGamePassPurchase(player, gamePass.Id)
+end
+
+function MonetizationService:ProcessReceipt(receiptInfo)
+	local player = Players:GetPlayerByUserId(receiptInfo.PlayerId)
+
+	if not player then
+		return Enum.ProductPurchaseDecision.NotProcessedYet
+	end
+
+	local productKey = self.ProductIdToKey[receiptInfo.ProductId]
+
+	if not productKey then
+		warn("[MonetizationService] Unknown developer product id: " .. tostring(receiptInfo.ProductId))
+		return Enum.ProductPurchaseDecision.PurchaseGranted
+	end
+
+	local granted = self:GrantProduct(player, productKey)
+
+	if granted then
+		return Enum.ProductPurchaseDecision.PurchaseGranted
+	end
+
+	return Enum.ProductPurchaseDecision.NotProcessedYet
+end
+
+function MonetizationService:GrantProduct(player, productKey)
+	local product = Config.DeveloperProducts[productKey]
+	local dataService = self.Context.Services.DataService
+	local data = dataService:GetData(player)
+
+	if not product or not data then
+		return false
+	end
+
+	if productKey == "LuckyMutationBoost" then
+		local now = os.time()
+		data.LuckBoostUntil = math.max(data.LuckBoostUntil, now) + Config.LuckyMutationBoostSeconds
+		dataService:MarkDirty(player)
+		dataService:Notify(player, "Lucky mutation boost activated.", "Success")
+		dataService:Push(player)
+		return true
+	end
+
+	if product.Cash and product.Cash > 0 then
+		dataService:AddCash(player, product.Cash, "Product")
+		dataService:Notify(player, "+" .. Utility.FormatNumber(product.Cash) .. " cash delivered.", "Success")
+		return true
+	end
+
+	return false
+end
+
+function MonetizationService:HasGamePass(player, gamePassKey)
+	local gamePass = Config.GamePasses[gamePassKey]
+
+	if not gamePass or not gamePass.Id or gamePass.Id <= 0 then
+		return false
+	end
+
+	local cacheKey = player.UserId .. ":" .. gamePassKey
+
+	if self.GamePassCache[cacheKey] ~= nil then
+		return self.GamePassCache[cacheKey]
+	end
+
+	local success, owns = pcall(function()
+		return MarketplaceService:UserOwnsGamePassAsync(player.UserId, gamePass.Id)
+	end)
+
+	if not success then
+		warn("[MonetizationService] Game pass check failed: " .. tostring(owns))
+		owns = false
+	end
+
+	self.GamePassCache[cacheKey] = owns
+	return owns
+end
+
+function MonetizationService:GetTotalCashMultiplier(player)
+	local multiplier = self.Context.Services.DataService:GetRebirthCashMultiplier(player)
+
+	if self:HasGamePass(player, "DoubleCash") then
+		multiplier *= 2
+	end
+
+	return multiplier
+end
+
+function MonetizationService:GetMaxPlants(player)
+	local maxPlants = Config.BaseMaxPlants
+
+	if self:HasGamePass(player, "VipGarden") then
+		maxPlants += Config.VipExtraPlantSlots
+	end
+
+	return maxPlants
+end
+
+return MonetizationService
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="13">
+      <Properties>
+        <string name="Name">PlantService</string>
+        <string name="Source"><![CDATA[local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+local PlantData = require(Modules:WaitForChild("PlantData"))
+local MutationData = require(Modules:WaitForChild("MutationData"))
+local Utility = require(Modules:WaitForChild("Utility"))
+
+local PlantService = {}
+
+PlantService.PlantModels = {}
+PlantService.RequestCooldowns = {}
+PlantService.HarvestCooldowns = {}
+PlantService.SellAllCooldowns = {}
+PlantService.StealCooldowns = {}
+
+local function createPlantPart(parent, name, shape, size, cframe, color, material)
+	local part = Instance.new("Part")
+	part.Name = name
+	part.Anchored = true
+	part.CanCollide = false
+	part.Shape = shape or Enum.PartType.Block
+	part.Size = size
+	part.CFrame = cframe
+	part.Color = color
+	part.Material = material or Enum.Material.SmoothPlastic
+	part.TopSurface = Enum.SurfaceType.Smooth
+	part.BottomSurface = Enum.SurfaceType.Smooth
+	part.Parent = parent
+
+	return part
+end
+
+local function makeBillboard(parent)
+	local gui = Instance.new("BillboardGui")
+	gui.Name = "PlantBillboard"
+	gui.AlwaysOnTop = true
+	gui.Size = UDim2.fromOffset(180, 78)
+	gui.StudsOffset = Vector3.new(0, 3.3, 0)
+	gui.Parent = parent
+
+	local label = Instance.new("TextLabel")
+	label.Name = "Label"
+	label.BackgroundTransparency = 0.16
+	label.BackgroundColor3 = Color3.fromRGB(18, 24, 28)
+	label.BorderSizePixel = 0
+	label.Size = UDim2.fromScale(1, 1)
+	label.Font = Enum.Font.GothamBold
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.TextScaled = true
+	label.TextWrapped = true
+	label.Parent = gui
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 8)
+	corner.Parent = label
+
+	return gui, label
+end
+
+function PlantService:Init(context)
+	self.Context = context
+	self.Remotes = context.Remotes
+	self.Random = Random.new()
+end
+
+function PlantService:Start()
+	self.Remotes.RequestPlant.OnServerEvent:Connect(function(player, seedId)
+		self:PlantSeed(player, seedId)
+	end)
+
+	self.Remotes.RequestSellAll.OnServerEvent:Connect(function(player)
+		self:SellAll(player)
+	end)
+
+	task.spawn(function()
+		while true do
+			task.wait(2)
+			self:UpdateAllPlantVisuals()
+		end
+	end)
+end
+
+function PlantService:GetNow()
+	return os.time()
+end
+
+function PlantService:IsGrown(plant)
+	local seed = PlantData.Get(plant.SeedId)
+
+	if not seed then
+		return false
+	end
+
+	return self:GetNow() - plant.PlantedAt >= seed.GrowthTime
+end
+
+function PlantService:GetGrowthPercent(plant)
+	local seed = PlantData.Get(plant.SeedId)
+
+	if not seed then
+		return 0
+	end
+
+	return math.clamp((self:GetNow() - plant.PlantedAt) / seed.GrowthTime, 0.05, 1)
+end
+
+function PlantService:PlantSeed(player, seedId)
+	if type(seedId) ~= "string" then
+		return
+	end
+
+	local now = os.clock()
+	local lastRequest = self.RequestCooldowns[player.UserId] or 0
+
+	if now - lastRequest < Config.PlantRequestCooldown then
+		return
+	end
+
+	self.RequestCooldowns[player.UserId] = now
+
+	local seed = PlantData.Get(seedId)
+	local dataService = self.Context.Services.DataService
+	local gardenService = self.Context.Services.GardenService
+	local monetizationService = self.Context.Services.MonetizationService
+	local data = dataService:GetData(player)
+
+	if not seed or not data then
+		return
+	end
+
+	if (data.Inventory[seedId] or 0) <= 0 then
+		dataService:Notify(player, "You need a " .. seed.DisplayName .. " seed first.", "Warning")
+		return
+	end
+
+	if seed.RebirthRequired > data.Rebirths then
+		dataService:Notify(player, seed.DisplayName .. " unlocks after rebirth " .. seed.RebirthRequired .. ".", "Warning")
+		return
+	end
+
+	local maxPlants = monetizationService:GetMaxPlants(player)
+
+	if #data.Plants >= maxPlants then
+		dataService:Notify(player, "Your garden is full. Harvest or rebirth to free space.", "Warning")
+		return
+	end
+
+	local slotIndex = gardenService:GetFreeSlot(player, data.Plants, maxPlants)
+
+	if not slotIndex then
+		dataService:Notify(player, "No open garden slots found.", "Warning")
+		return
+	end
+
+	if not dataService:RemoveSeed(player, seedId, 1) then
+		return
+	end
+
+	local plant = {
+		Id = HttpService:GenerateGUID(false),
+		SeedId = seedId,
+		MutationId = self:RollMutation(player),
+		PlantedAt = self:GetNow(),
+		SlotIndex = slotIndex,
+	}
+
+	table.insert(data.Plants, plant)
+	dataService:MarkDirty(player)
+	self:CreatePlantModel(player, plant)
+
+	local mutation = MutationData.Get(plant.MutationId)
+	if mutation.Id == MutationData.NormalId then
+		dataService:Notify(player, "Planted " .. seed.DisplayName .. ".", "Success")
+	else
+		dataService:Notify(player, "Mutation hit: " .. mutation.DisplayName .. " " .. seed.DisplayName .. "!", "Success")
+	end
+
+	dataService:Push(player)
+end
+
+function PlantService:RollMutation(player)
+	local data = self.Context.Services.DataService:GetData(player)
+	local chance = Config.BaseMutationChance
+
+	if data and data.LuckBoostUntil > self:GetNow() then
+		chance += Config.LuckyMutationBoostChance
+	end
+
+	chance = math.clamp(chance, 0, 0.95)
+
+	if self.Random:NextNumber() > chance then
+		return MutationData.NormalId
+	end
+
+	local mutation = Utility.WeightedChoice(MutationData.GetMutationPool(), self.Random)
+
+	return mutation and mutation.Id or MutationData.NormalId
+end
+
+function PlantService:CreatePlantModel(player, plant)
+	local gardenService = self.Context.Services.GardenService
+	local plot = gardenService:GetPlot(player)
+
+	if not plot then
+		return nil
+	end
+
+	self:DestroyPlantModel(plant.Id)
+
+	local seed = PlantData.Get(plant.SeedId)
+	local mutation = MutationData.Get(plant.MutationId)
+
+	if not seed or not mutation then
+		return nil
+	end
+
+	local model = Instance.new("Model")
+	model.Name = mutation.DisplayName .. " " .. seed.DisplayName
+	model:SetAttribute("PlantId", plant.Id)
+	model:SetAttribute("OwnerUserId", player.UserId)
+	model.Parent = plot.PlantsFolder
+
+	local slotCFrame = gardenService:GetSlotCFrame(player, plant.SlotIndex)
+	local stem = createPlantPart(model, "Stem", Enum.PartType.Cylinder, Vector3.new(0.55, 1, 0.55), slotCFrame, Color3.fromRGB(78, 168, 74), Enum.Material.SmoothPlastic)
+	local fruitShape = Enum.PartType.Ball
+
+	if seed.Shape == "Root" or seed.Shape == "Cactus" then
+		fruitShape = Enum.PartType.Cylinder
+	elseif seed.Shape == "Gourd" or seed.Shape == "Blob" then
+		fruitShape = Enum.PartType.Ball
+	end
+
+	local fruitColor = seed.Color:Lerp(mutation.Color, mutation.Id == MutationData.NormalId and 0 or 0.42)
+	local fruit = createPlantPart(model, "Fruit", fruitShape, Vector3.new(2, 2, 2), slotCFrame, fruitColor, mutation.Material)
+	local billboard, label = makeBillboard(fruit)
+	local prompt = Instance.new("ProximityPrompt")
+	prompt.Name = "HarvestPrompt"
+	prompt.ActionText = "Harvest / Steal"
+	prompt.ObjectText = seed.DisplayName
+	prompt.HoldDuration = 0.55
+	prompt.MaxActivationDistance = 12
+	prompt.RequiresLineOfSight = false
+	prompt.Enabled = false
+	prompt.Parent = fruit
+
+	prompt.Triggered:Connect(function(triggeringPlayer)
+		if triggeringPlayer.UserId == player.UserId then
+			self:Harvest(triggeringPlayer, plant.Id)
+		else
+			self:Steal(triggeringPlayer, plant.Id)
+		end
+	end)
+
+	model.PrimaryPart = fruit
+
+	self.PlantModels[plant.Id] = {
+		Model = model,
+		Stem = stem,
+		Fruit = fruit,
+		Billboard = billboard,
+		Label = label,
+		Prompt = prompt,
+		OwnerUserId = player.UserId,
+	}
+
+	self:UpdatePlantVisual(plant)
+	return model
+end
+
+function PlantService:UpdateAllPlantVisuals()
+	for plantId in pairs(self.PlantModels) do
+		local _, plant = self:FindPlantById(plantId)
+
+		if plant then
+			self:UpdatePlantVisual(plant)
+		else
+			self:DestroyPlantModel(plantId)
+		end
+	end
+end
+
+function PlantService:UpdatePlantVisual(plant)
+	local entry = self.PlantModels[plant.Id]
+	local seed = PlantData.Get(plant.SeedId)
+	local mutation = MutationData.Get(plant.MutationId)
+
+	if not entry or not seed or not mutation then
+		return
+	end
+
+	local owner = Players:GetPlayerByUserId(entry.OwnerUserId)
+	local gardenService = self.Context.Services.GardenService
+	local slotCFrame = owner and gardenService:GetSlotCFrame(owner, plant.SlotIndex)
+
+	if not slotCFrame then
+		return
+	end
+
+	local growth = self:GetGrowthPercent(plant)
+	local scale = mutation.Scale
+	local stemHeight = math.max(0.35, 4.2 * growth * scale)
+	local fruitSize = math.max(0.7, 2.4 * growth * scale)
+
+	entry.Stem.Size = Vector3.new(0.55 * scale, stemHeight, 0.55 * scale)
+	entry.Stem.CFrame = slotCFrame * CFrame.new(0, stemHeight / 2, 0)
+	entry.Fruit.Size = Vector3.new(fruitSize, fruitSize, fruitSize)
+	entry.Fruit.CFrame = slotCFrame * CFrame.new(0, stemHeight + (fruitSize / 2), 0)
+
+	local remaining = math.max(0, seed.GrowthTime - (self:GetNow() - plant.PlantedAt))
+	local grown = remaining <= 0
+	local mutationPrefix = mutation.Id == MutationData.NormalId and "" or (mutation.DisplayName .. " ")
+	local value = self:GetBasePlantValue(plant)
+
+	if grown then
+		entry.Label.Text = mutationPrefix .. seed.DisplayName .. "\nReady $" .. Utility.FormatNumber(value)
+	else
+		entry.Label.Text = mutationPrefix .. seed.DisplayName .. "\n" .. tostring(remaining) .. "s"
+	end
+
+	entry.Label.TextColor3 = Config.RarityColors[seed.Rarity] or Color3.new(1, 1, 1)
+	entry.Prompt.Enabled = grown
+end
+
+function PlantService:DestroyPlantModel(plantId)
+	local entry = self.PlantModels[plantId]
+
+	if entry then
+		entry.Model:Destroy()
+		self.PlantModels[plantId] = nil
+	end
+end
+
+function PlantService:LoadPlayerPlants(player)
+	local data = self.Context.Services.DataService:GetData(player)
+	local gardenService = self.Context.Services.GardenService
+
+	if not data then
+		return
+	end
+
+	local maxPlants = Config.BaseMaxPlants + Config.VipExtraPlantSlots
+	local used = {}
+	local sanitizedPlants = {}
+
+	for _, plant in ipairs(data.Plants) do
+		if PlantData.Get(plant.SeedId) and #sanitizedPlants < maxPlants then
+			if plant.SlotIndex < 1 or plant.SlotIndex > maxPlants or used[plant.SlotIndex] then
+				plant.SlotIndex = gardenService:GetFreeSlot(player, sanitizedPlants, maxPlants) or 1
+			end
+
+			used[plant.SlotIndex] = true
+			table.insert(sanitizedPlants, plant)
+			self:CreatePlantModel(player, plant)
+		end
+	end
+
+	data.Plants = sanitizedPlants
+end
+
+function PlantService:HandlePlayerRemoving(player)
+	local data = self.Context.Services.DataService:GetData(player)
+
+	if not data then
+		return
+	end
+
+	for _, plant in ipairs(data.Plants) do
+		self:DestroyPlantModel(plant.Id)
+	end
+end
+
+function PlantService:FindPlantById(plantId)
+	for ownerUserId, data in pairs(self.Context.Services.DataService:GetAllData()) do
+		for index, plant in ipairs(data.Plants) do
+			if plant.Id == plantId then
+				return ownerUserId, plant, index, data
+			end
+		end
+	end
+
+	return nil
+end
+
+function PlantService:GetBasePlantValue(plant)
+	local seed = PlantData.Get(plant.SeedId)
+	local mutation = MutationData.Get(plant.MutationId)
+
+	if not seed then
+		return 0
+	end
+
+	return math.floor(seed.HarvestValue * mutation.Multiplier)
+end
+
+function PlantService:GetHarvestValue(player, plant)
+	local monetizationService = self.Context.Services.MonetizationService
+
+	return math.floor(self:GetBasePlantValue(plant) * monetizationService:GetTotalCashMultiplier(player))
+end
+
+function PlantService:Harvest(player, plantId)
+	local now = os.clock()
+	local lastRequest = self.HarvestCooldowns[player.UserId] or 0
+
+	if now - lastRequest < Config.HarvestRequestCooldown then
+		return
+	end
+
+	self.HarvestCooldowns[player.UserId] = now
+
+	local ownerUserId, plant, index, data = self:FindPlantById(plantId)
+	local dataService = self.Context.Services.DataService
+
+	if not plant or ownerUserId ~= player.UserId then
+		return
+	end
+
+	if not self:IsGrown(plant) then
+		dataService:Notify(player, "That plant is still cooking.", "Warning")
+		return
+	end
+
+	local amount = self:GetHarvestValue(player, plant)
+	local entry = self.PlantModels[plant.Id]
+	local position = entry and entry.Fruit.Position
+
+	table.remove(data.Plants, index)
+	self:DestroyPlantModel(plant.Id)
+	dataService:AddCash(player, amount, "Harvest")
+	dataService:MarkDirty(player)
+	dataService:Notify(player, "+$" .. Utility.FormatNumber(amount) .. " harvested.", "Success")
+	self:FireFloatingText(player, position, "+$" .. Utility.FormatNumber(amount), Color3.fromRGB(99, 255, 129))
+	dataService:Push(player)
+end
+
+function PlantService:SellAll(player)
+	local now = os.clock()
+	local lastRequest = self.SellAllCooldowns[player.UserId] or 0
+
+	if now - lastRequest < Config.SellAllCooldown then
+		return
+	end
+
+	self.SellAllCooldowns[player.UserId] = now
+
+	local dataService = self.Context.Services.DataService
+	local data = dataService:GetData(player)
+
+	if not data then
+		return
+	end
+
+	local total = 0
+	local count = 0
+
+	for index = #data.Plants, 1, -1 do
+		local plant = data.Plants[index]
+
+		if self:IsGrown(plant) then
+			total += self:GetHarvestValue(player, plant)
+			count += 1
+			self:DestroyPlantModel(plant.Id)
+			table.remove(data.Plants, index)
+		end
+	end
+
+	if count <= 0 then
+		dataService:Notify(player, "No fully grown plants to sell yet.", "Warning")
+		return
+	end
+
+	dataService:AddCash(player, total, "Harvest")
+	dataService:MarkDirty(player)
+	dataService:Notify(player, ("Sold %d plants for $%s."):format(count, Utility.FormatNumber(total)), "Success")
+	dataService:Push(player)
+end
+
+function PlantService:Steal(thief, plantId)
+	local dataService = self.Context.Services.DataService
+	local now = self:GetNow()
+	local cooldownUntil = self.StealCooldowns[thief.UserId] or 0
+
+	if cooldownUntil > now then
+		dataService:Notify(thief, "Steal cooldown: " .. tostring(cooldownUntil - now) .. "s.", "Warning")
+		return
+	end
+
+	local ownerUserId, plant, index, ownerData = self:FindPlantById(plantId)
+	local owner = ownerUserId and Players:GetPlayerByUserId(ownerUserId)
+
+	if not plant or not owner or owner == thief then
+		return
+	end
+
+	if ownerData.ShieldUntil > now then
+		dataService:Notify(thief, "That garden is shielded for " .. tostring(ownerData.ShieldUntil - now) .. "s.", "Warning")
+		return
+	end
+
+	if not self:IsGrown(plant) then
+		return
+	end
+
+	local baseValue = self:GetBasePlantValue(plant)
+	local thiefReward = math.floor(baseValue * Config.StealRewardPercent * self.Context.Services.MonetizationService:GetTotalCashMultiplier(thief))
+	local ownerInsurance = math.floor(baseValue * Config.OwnerInsurancePercent * self.Context.Services.MonetizationService:GetTotalCashMultiplier(owner))
+	local entry = self.PlantModels[plant.Id]
+	local position = entry and entry.Fruit.Position
+	local seed = PlantData.Get(plant.SeedId)
+
+	self.StealCooldowns[thief.UserId] = now + Config.StealCooldown
+	ownerData.ShieldUntil = now + Config.ShieldSecondsAfterSteal
+	table.remove(ownerData.Plants, index)
+	self:DestroyPlantModel(plant.Id)
+
+	dataService:AddCash(thief, thiefReward, "Steal")
+	dataService:AddCash(owner, ownerInsurance, "Harvest")
+	dataService:MarkDirty(owner)
+	dataService:Notify(thief, "You raided " .. owner.DisplayName .. "'s " .. seed.DisplayName .. " for $" .. Utility.FormatNumber(thiefReward) .. ".", "Success")
+	dataService:Notify(owner, thief.DisplayName .. " stole a " .. seed.DisplayName .. ". Shield active, insurance paid.", "Warning")
+	self:FireFloatingText(thief, position, "+$" .. Utility.FormatNumber(thiefReward), Color3.fromRGB(255, 221, 83))
+	dataService:Push(thief)
+	dataService:Push(owner)
+end
+
+function PlantService:FireFloatingText(player, position, text, color)
+	if not position or not self.Remotes.FloatingText then
+		return
+	end
+
+	self.Remotes.FloatingText:FireClient(player, position, text, color)
+end
+
+function PlantService:ClearPlayerPlants(player)
+	local data = self.Context.Services.DataService:GetData(player)
+
+	if not data then
+		return
+	end
+
+	for _, plant in ipairs(data.Plants) do
+		self:DestroyPlantModel(plant.Id)
+	end
+
+	data.Plants = {}
+	self.Context.Services.DataService:MarkDirty(player)
+end
+
+function PlantService:GetPlantSummaries(player)
+	local data = self.Context.Services.DataService:GetData(player)
+	local summaries = {}
+
+	if not data then
+		return summaries
+	end
+
+	for _, plant in ipairs(data.Plants) do
+		local seed = PlantData.Get(plant.SeedId)
+		local mutation = MutationData.Get(plant.MutationId)
+
+		if seed and mutation then
+			table.insert(summaries, {
+				Id = plant.Id,
+				SeedId = plant.SeedId,
+				SeedName = seed.DisplayName,
+				Rarity = seed.Rarity,
+				MutationId = mutation.Id,
+				MutationName = mutation.DisplayName,
+				Multiplier = mutation.Multiplier,
+				Remaining = math.max(0, seed.GrowthTime - (self:GetNow() - plant.PlantedAt)),
+				Ready = self:IsGrown(plant),
+				Value = self:GetHarvestValue(player, plant),
+			})
+		end
+	end
+
+	return summaries
+end
+
+return PlantService
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="14">
+      <Properties>
+        <string name="Name">RebirthService</string>
+        <string name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+local Utility = require(Modules:WaitForChild("Utility"))
+
+local RebirthService = {}
+
+function RebirthService:Init(context)
+	self.Context = context
+	self.Remotes = context.Remotes
+end
+
+function RebirthService:Start()
+	self.Remotes.RequestRebirth.OnServerEvent:Connect(function(player)
+		self:TryRebirth(player)
+	end)
+end
+
+function RebirthService:TryRebirth(player)
+	local dataService = self.Context.Services.DataService
+	local plantService = self.Context.Services.PlantService
+	local data = dataService:GetData(player)
+
+	if not data then
+		return
+	end
+
+	local cost = dataService:GetRebirthCost(player)
+
+	if data.Cash < cost then
+		dataService:Notify(player, "Rebirth needs $" .. Utility.FormatNumber(cost) .. ".", "Warning")
+		return
+	end
+
+	plantService:ClearPlayerPlants(player)
+
+	data.Rebirths += 1
+	data.Stats.TotalRebirths = data.Rebirths
+	data.Cash = Config.StartingCash
+	data.Inventory = Utility.DeepCopy(Config.StartingSeeds)
+	data.ShieldUntil = math.max(data.ShieldUntil, os.time() + 30)
+
+	dataService:MarkDirty(player)
+	dataService:UpdateLeaderstats(player)
+	dataService:Notify(player, "Rebirth complete. Permanent cash multiplier increased!", "Success")
+	dataService:Push(player)
+end
+
+return RebirthService
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="15">
+      <Properties>
+        <string name="Name">RewardService</string>
+        <string name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+local Utility = require(Modules:WaitForChild("Utility"))
+
+local RewardService = {}
+
+function RewardService:Init(context)
+	self.Context = context
+	self.Remotes = context.Remotes
+end
+
+function RewardService:Start()
+	self.Remotes.RequestDailyReward.OnServerEvent:Connect(function(player)
+		self:Claim(player)
+	end)
+end
+
+function RewardService:GetNextStreak(player)
+	local data = self.Context.Services.DataService:GetData(player)
+
+	if not data then
+		return 1
+	end
+
+	local today = Utility.GetUnixDay(os.time())
+	local lastClaimDay = data.Daily.LastClaimDay or 0
+
+	if lastClaimDay == today - 1 then
+		return math.clamp((data.Daily.Streak or 0) + 1, 1, Config.DailyRewardMaxStreak)
+	end
+
+	if lastClaimDay == today then
+		return math.clamp(data.Daily.Streak or 1, 1, Config.DailyRewardMaxStreak)
+	end
+
+	return 1
+end
+
+function RewardService:GetRewardAmount(player)
+	local streak = self:GetNextStreak(player)
+
+	return Config.DailyRewardBase + ((streak - 1) * Config.DailyRewardStreakBonus)
+end
+
+function RewardService:CanClaim(player)
+	local data = self.Context.Services.DataService:GetData(player)
+
+	if not data then
+		return false
+	end
+
+	return data.Daily.LastClaimDay ~= Utility.GetUnixDay(os.time())
+end
+
+function RewardService:Claim(player)
+	local dataService = self.Context.Services.DataService
+	local data = dataService:GetData(player)
+
+	if not data then
+		return
+	end
+
+	if not self:CanClaim(player) then
+		dataService:Notify(player, "Daily reward already claimed today.", "Warning")
+		return
+	end
+
+	local today = Utility.GetUnixDay(os.time())
+	local streak = self:GetNextStreak(player)
+	local reward = self:GetRewardAmount(player)
+
+	data.Daily.LastClaimDay = today
+	data.Daily.Streak = streak
+	dataService:AddCash(player, reward, "Daily")
+	dataService:MarkDirty(player)
+	dataService:Notify(player, ("Daily claimed: $%s. Streak %d."):format(Utility.FormatNumber(reward), streak), "Success")
+	dataService:Push(player)
+end
+
+return RewardService
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="16">
+      <Properties>
+        <string name="Name">ShopService</string>
+        <string name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+local PlantData = require(Modules:WaitForChild("PlantData"))
+local Utility = require(Modules:WaitForChild("Utility"))
+
+local ShopService = {}
+
+function ShopService:Init(context)
+	self.Context = context
+	self.Remotes = context.Remotes
+end
+
+function ShopService:Start()
+	self.Remotes.RequestBuySeed.OnServerEvent:Connect(function(player, seedId, quantity)
+		self:BuySeed(player, seedId, quantity)
+	end)
+end
+
+function ShopService:BuySeed(player, seedId, quantity)
+	if type(seedId) ~= "string" then
+		return
+	end
+
+	local seed = PlantData.Get(seedId)
+	local dataService = self.Context.Services.DataService
+	local data = dataService:GetData(player)
+
+	if not seed or not data then
+		return
+	end
+
+	quantity = math.floor(tonumber(quantity) or 1)
+	quantity = math.clamp(quantity, 1, 25)
+
+	if seed.RebirthRequired > data.Rebirths then
+		dataService:Notify(player, seed.DisplayName .. " unlocks after rebirth " .. seed.RebirthRequired .. ".", "Warning")
+		return
+	end
+
+	local cost = seed.Cost * quantity
+
+	if not dataService:SpendCash(player, cost) then
+		dataService:Notify(player, "Need $" .. Utility.FormatNumber(cost) .. " for that seed.", "Warning")
+		return
+	end
+
+	dataService:AddSeed(player, seedId, quantity)
+	dataService:Notify(player, ("Bought %dx %s."):format(quantity, seed.DisplayName), "Success")
+	dataService:Push(player)
+end
+
+function ShopService:GetShopForPlayer(player)
+	local data = self.Context.Services.DataService:GetData(player)
+	local shop = {}
+
+	if not data then
+		return shop
+	end
+
+	for _, seed in ipairs(PlantData.GetOrderedSeeds()) do
+		table.insert(shop, {
+			Id = seed.Id,
+			DisplayName = seed.DisplayName,
+			Rarity = seed.Rarity,
+			Cost = seed.Cost,
+			GrowthTime = seed.GrowthTime,
+			HarvestValue = seed.HarvestValue,
+			RebirthRequired = seed.RebirthRequired,
+			Owned = data.Inventory[seed.Id] or 0,
+			Unlocked = data.Rebirths >= seed.RebirthRequired,
+			Color = Config.RarityColors[seed.Rarity] or Color3.new(1, 1, 1),
+		})
+	end
+
+	return shop
+end
+
+return ShopService
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="17">
+      <Properties>
+        <string name="Name">TradeService</string>
+        <string name="Source"><![CDATA[local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local Config = require(Modules:WaitForChild("Config"))
+
+local TradeService = {}
+
+function TradeService:Init(context)
+	self.Context = context
+	self.Remotes = context.Remotes
+end
+
+function TradeService:Start()
+	self.Remotes.RequestTrade.OnServerEvent:Connect(function(player, action, payload)
+		self:HandleRequest(player, action, payload)
+	end)
+end
+
+function TradeService:HandleRequest(player, action, payload)
+	local dataService = self.Context.Services.DataService
+
+	if action == "Ping" and type(payload) == "table" then
+		local targetUserId = tonumber(payload.TargetUserId)
+		local target = targetUserId and Players:GetPlayerByUserId(targetUserId)
+
+		if not target or target == player then
+			dataService:Notify(player, "Pick another player to trade with.", "Warning")
+			return
+		end
+
+		dataService:Notify(player, "Trade ping sent to " .. target.DisplayName .. ".", "Success")
+		dataService:Notify(target, player.DisplayName .. " wants to trade. Full trading is the next upgrade.", "Info")
+		return
+	end
+
+	dataService:Notify(player, "Trading placeholder is online. Trade ping works; item escrow comes next.", "Info")
+end
+
+function TradeService:GetTradeStatus(_player)
+	return {
+		Enabled = true,
+		Mode = "Placeholder",
+		Message = "Trade pings are enabled. Safe item escrow is planned next.",
+	}
+end
+
+return TradeService
+]]></string>
+      </Properties>
+    </Item>
+  </Item>
+  <Item class="StarterGui" referent="18">
+    <Properties>
+      <string name="Name">StarterGui</string>
+    </Properties>
+    <Item class="Folder" referent="19">
+      <Properties>
+        <string name="Name">MainUI</string>
+      </Properties>
+    </Item>
+  </Item>
+  <Item class="StarterPlayer" referent="20">
+    <Properties>
+      <string name="Name">StarterPlayer</string>
+    </Properties>
+    <Item class="StarterPlayerScripts" referent="21">
+      <Properties>
+        <string name="Name">StarterPlayerScripts</string>
+      </Properties>
+      <Item class="LocalScript" referent="22">
+        <Properties>
+          <string name="Name">ClientMain</string>
+          <string name="Source"><![CDATA[local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
+local Workspace = game:GetService("Workspace")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+local modules = ReplicatedStorage:WaitForChild("Modules")
+local remotesFolder = ReplicatedStorage:WaitForChild("Remotes")
+
+local Config = require(modules:WaitForChild("Config"))
+local PlantData = require(modules:WaitForChild("PlantData"))
+local Utility = require(modules:WaitForChild("Utility"))
+
+local Remotes = {}
+for remoteKey, remoteName in pairs(Config.RemoteNames) do
+	Remotes[remoteKey] = remotesFolder:WaitForChild(remoteName)
+end
+
+local state = nil
+local selectedSeedId = "BasicBean"
+local activePanel = nil
+local panelContent = nil
+local panelTitle = nil
+local tutorialStep = 1
+local tutorialDismissed = false
+local ui = {}
+
+local function create(className, props, children)
+	local instance = Instance.new(className)
+
+	for key, value in pairs(props or {}) do
+		instance[key] = value
+	end
+
+	for _, child in ipairs(children or {}) do
+		child.Parent = instance
+	end
+
+	return instance
+end
+
+local function addCorner(parent, radius)
+	return create("UICorner", {
+		CornerRadius = UDim.new(0, radius or 8),
+		Parent = parent,
+	})
+end
+
+local function addStroke(parent, color, thickness, transparency)
+	return create("UIStroke", {
+		Color = color or Color3.fromRGB(255, 255, 255),
+		Thickness = thickness or 1,
+		Transparency = transparency or 0.65,
+		Parent = parent,
+	})
+end
+
+local function makeLabel(parent, text, size, color, font)
+	local label = create("TextLabel", {
+		BackgroundTransparency = 1,
+		Font = font or Enum.Font.GothamBold,
+		Text = text,
+		TextColor3 = color or Config.Ui.Text,
+		TextSize = size or 16,
+		TextWrapped = true,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		TextYAlignment = Enum.TextYAlignment.Center,
+		Parent = parent,
+	})
+
+	return label
+end
+
+local function makeButton(parent, text, color)
+	local button = create("TextButton", {
+		AutoButtonColor = true,
+		BackgroundColor3 = color or Config.Ui.Primary,
+		Font = Enum.Font.GothamBlack,
+		Text = text,
+		TextColor3 = Color3.fromRGB(255, 255, 255),
+		TextSize = 15,
+		TextWrapped = true,
+		Parent = parent,
+	})
+	addCorner(button, 8)
+	addStroke(button, Color3.fromRGB(255, 255, 255), 1, 0.82)
+
+	return button
+end
+
+local function formatTime(seconds)
+	seconds = math.max(0, math.floor(seconds or 0))
+
+	if seconds >= 60 then
+		return tostring(math.floor(seconds / 60)) .. "m " .. tostring(seconds % 60) .. "s"
+	end
+
+	return tostring(seconds) .. "s"
+end
+
+local function getInventoryCount(seedId)
+	if not state or not state.Inventory then
+		return 0
+	end
+
+	return state.Inventory[seedId] or 0
+end
+
+local function pickBestOwnedSeed()
+	if not state or not state.Inventory then
+		return "BasicBean"
+	end
+
+	if (state.Inventory[selectedSeedId] or 0) > 0 then
+		return selectedSeedId
+	end
+
+	for index = #PlantData.Order, 1, -1 do
+		local seedId = PlantData.Order[index]
+
+		if (state.Inventory[seedId] or 0) > 0 then
+			return seedId
+		end
+	end
+
+	return "BasicBean"
+end
+
+local function showToast(message, tone)
+	local toast = create("TextLabel", {
+		AnchorPoint = Vector2.new(1, 0),
+		BackgroundColor3 = tone == "Warning" and Config.Ui.Warning or tone == "Success" and Config.Ui.Primary or Config.Ui.Panel,
+		Position = UDim2.new(1, -12, 0, 76 + (#ui.ToastContainer:GetChildren() * 50)),
+		Size = UDim2.fromOffset(310, 42),
+		Font = Enum.Font.GothamBold,
+		Text = tostring(message),
+		TextColor3 = tone == "Warning" and Color3.fromRGB(33, 28, 14) or Color3.fromRGB(255, 255, 255),
+		TextSize = 14,
+		TextWrapped = true,
+		Parent = ui.ToastContainer,
+	})
+	addCorner(toast, 8)
+	addStroke(toast, Color3.fromRGB(255, 255, 255), 1, 0.76)
+
+	task.delay(3, function()
+		if not toast.Parent then
+			return
+		end
+
+		local tween = TweenService:Create(toast, TweenInfo.new(0.28), {
+			TextTransparency = 1,
+			BackgroundTransparency = 1,
+		})
+		tween:Play()
+		tween.Completed:Wait()
+		toast:Destroy()
+	end)
+end
+
+local function clearContent()
+	for _, child in ipairs(panelContent:GetChildren()) do
+		if not child:IsA("UIListLayout") and not child:IsA("UIPadding") then
+			child:Destroy()
+		end
+	end
+end
+
+local function closePanel()
+	activePanel = nil
+	ui.Panel.Visible = false
+end
+
+local function openPanel(title)
+	activePanel = title
+	panelTitle.Text = title
+	ui.Panel.Visible = true
+	clearContent()
+end
+
+local function requestPlant(seedId)
+	selectedSeedId = seedId or pickBestOwnedSeed()
+	Remotes.RequestPlant:FireServer(selectedSeedId)
+
+	if tutorialStep == 1 then
+		tutorialStep = 2
+	end
+end
+
+local function makeRow(parent, height)
+	local row = create("Frame", {
+		BackgroundColor3 = Config.Ui.PanelLight,
+		Size = UDim2.new(1, 0, 0, height or 72),
+		Parent = parent,
+	})
+	addCorner(row, 8)
+	addStroke(row, Color3.fromRGB(255, 255, 255), 1, 0.86)
+
+	return row
+end
+
+local function renderShop()
+	openPanel("Seed Shop")
+
+	local hint = makeLabel(panelContent, "Buy seeds, plant them, harvest cash, then chase rarer mutations.", 14, Config.Ui.Muted, Enum.Font.Gotham)
+	hint.Size = UDim2.new(1, -8, 0, 34)
+
+	for _, item in ipairs((state and state.Shop) or {}) do
+		local row = makeRow(panelContent, 86)
+		local rarityColor = item.Color or Config.RarityColors[item.Rarity] or Config.Ui.Primary
+
+		local stripe = create("Frame", {
+			BackgroundColor3 = rarityColor,
+			BorderSizePixel = 0,
+			Size = UDim2.new(0, 7, 1, 0),
+			Parent = row,
+		})
+		addCorner(stripe, 8)
+
+		local name = makeLabel(row, item.DisplayName .. " [" .. item.Rarity .. "]", 16, Config.Ui.Text, Enum.Font.GothamBlack)
+		name.Position = UDim2.fromOffset(16, 7)
+		name.Size = UDim2.new(1, -132, 0, 24)
+
+		local details = makeLabel(row, ("$%s | %s | pays $%s | owned %d"):format(
+			Utility.FormatNumber(item.Cost),
+			formatTime(item.GrowthTime),
+			Utility.FormatNumber(item.HarvestValue),
+			item.Owned
+		), 13, Config.Ui.Muted, Enum.Font.Gotham)
+		details.Position = UDim2.fromOffset(16, 36)
+		details.Size = UDim2.new(1, -132, 0, 38)
+
+		local buy = makeButton(row, item.Unlocked and "Buy" or ("R" .. tostring(item.RebirthRequired)), item.Unlocked and Config.Ui.Primary or Color3.fromRGB(91, 91, 91))
+		buy.AnchorPoint = Vector2.new(1, 0.5)
+		buy.Position = UDim2.new(1, -10, 0.5, 0)
+		buy.Size = UDim2.fromOffset(92, 48)
+		buy.Activated:Connect(function()
+			if item.Unlocked then
+				Remotes.RequestBuySeed:FireServer(item.Id, 1)
+			else
+				showToast("Unlocks after rebirth " .. item.RebirthRequired .. ".", "Warning")
+			end
+		end)
+	end
+
+	local boostHeader = makeLabel(panelContent, "Boosts", 18, Config.Ui.Text, Enum.Font.GothamBlack)
+	boostHeader.Size = UDim2.new(1, 0, 0, 34)
+
+	local boostRow = makeRow(panelContent, 160)
+	local grid = create("UIGridLayout", {
+		CellPadding = UDim2.fromOffset(8, 8),
+		CellSize = UDim2.new(0.5, -8, 0, 44),
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		Parent = boostRow,
+	})
+	create("UIPadding", {
+		PaddingTop = UDim.new(0, 10),
+		PaddingBottom = UDim.new(0, 10),
+		PaddingLeft = UDim.new(0, 10),
+		PaddingRight = UDim.new(0, 10),
+		Parent = boostRow,
+	})
+
+	local doubleCash = makeButton(boostRow, "2x Cash", Color3.fromRGB(64, 164, 255))
+	doubleCash.Activated:Connect(function()
+		Remotes.RequestGamePassPurchase:FireServer("DoubleCash")
+	end)
+
+	local vip = makeButton(boostRow, "VIP Garden", Color3.fromRGB(255, 183, 66))
+	vip.Activated:Connect(function()
+		Remotes.RequestGamePassPurchase:FireServer("VipGarden")
+	end)
+
+	local luck = makeButton(boostRow, "Lucky Boost", Color3.fromRGB(192, 92, 255))
+	luck.Activated:Connect(function()
+		Remotes.RequestProductPurchase:FireServer("LuckyMutationBoost")
+	end)
+
+	local cashPack = makeButton(boostRow, "Cash Pack", Color3.fromRGB(60, 210, 128))
+	cashPack.Activated:Connect(function()
+		Remotes.RequestProductPurchase:FireServer("MediumCashPack")
+	end)
+
+	grid.Parent = boostRow
+
+	if tutorialStep == 2 then
+		tutorialStep = 3
+	end
+end
+
+local function renderInventory()
+	openPanel("Inventory")
+
+	local plantHint = makeLabel(panelContent, "Selected seed: " .. (PlantData.Get(selectedSeedId) and PlantData.Get(selectedSeedId).DisplayName or "Basic Bean"), 15, Config.Ui.Muted, Enum.Font.Gotham)
+	plantHint.Size = UDim2.new(1, 0, 0, 30)
+
+	local shown = 0
+
+	for _, seedId in ipairs(PlantData.Order) do
+		local seed = PlantData.Get(seedId)
+		local count = getInventoryCount(seedId)
+
+		if count > 0 then
+			shown += 1
+			local row = makeRow(panelContent, 76)
+			local name = makeLabel(row, seed.DisplayName, 16, Config.RarityColors[seed.Rarity] or Config.Ui.Text, Enum.Font.GothamBlack)
+			name.Position = UDim2.fromOffset(14, 8)
+			name.Size = UDim2.new(1, -128, 0, 26)
+
+			local detail = makeLabel(row, ("Owned %d | %s | pays $%s"):format(count, formatTime(seed.GrowthTime), Utility.FormatNumber(seed.HarvestValue)), 13, Config.Ui.Muted, Enum.Font.Gotham)
+			detail.Position = UDim2.fromOffset(14, 38)
+			detail.Size = UDim2.new(1, -128, 0, 24)
+
+			local plantButton = makeButton(row, selectedSeedId == seedId and "Planting" or "Plant", selectedSeedId == seedId and Config.Ui.PrimaryDark or Config.Ui.Primary)
+			plantButton.AnchorPoint = Vector2.new(1, 0.5)
+			plantButton.Position = UDim2.new(1, -10, 0.5, 0)
+			plantButton.Size = UDim2.fromOffset(98, 46)
+			plantButton.Activated:Connect(function()
+				requestPlant(seedId)
+			end)
+		end
+	end
+
+	if shown == 0 then
+		local empty = makeLabel(panelContent, "No seeds yet. Open the shop and buy Basic Bean seeds.", 16, Config.Ui.Muted, Enum.Font.Gotham)
+		empty.Size = UDim2.new(1, 0, 0, 54)
+	end
+end
+
+local function renderRebirth()
+	openPanel("Rebirth")
+
+	local cost = state and state.RebirthCost or Config.RebirthBaseCost
+	local multiplier = state and state.CashMultiplier or 1
+
+	local info = makeLabel(panelContent, ("Cost: $%s\nCurrent multiplier: %.2fx\nAfter rebirth: %.2fx\nCash and garden reset, permanent multiplier stays."):format(
+		Utility.FormatNumber(cost),
+		multiplier,
+		multiplier + Config.RebirthCashMultiplierPerRebirth
+	), 18, Config.Ui.Text, Enum.Font.GothamBold)
+	info.Size = UDim2.new(1, -8, 0, 150)
+	info.TextXAlignment = Enum.TextXAlignment.Center
+
+	local rebirthButton = makeButton(panelContent, "Rebirth", Config.Ui.Warning)
+	rebirthButton.Size = UDim2.new(1, 0, 0, 58)
+	rebirthButton.TextColor3 = Color3.fromRGB(35, 25, 10)
+	rebirthButton.Activated:Connect(function()
+		Remotes.RequestRebirth:FireServer()
+	end)
+end
+
+local function renderTrade()
+	openPanel("Trade")
+
+	local hint = makeLabel(panelContent, "Send a trade ping. Safe item escrow is stubbed for the next build.", 14, Config.Ui.Muted, Enum.Font.Gotham)
+	hint.Size = UDim2.new(1, 0, 0, 42)
+
+	for _, otherPlayer in ipairs(Players:GetPlayers()) do
+		if otherPlayer ~= player then
+			local row = makeRow(panelContent, 68)
+			local name = makeLabel(row, otherPlayer.DisplayName, 17, Config.Ui.Text, Enum.Font.GothamBlack)
+			name.Position = UDim2.fromOffset(14, 0)
+			name.Size = UDim2.new(1, -132, 1, 0)
+
+			local ping = makeButton(row, "Ping", Config.Ui.Primary)
+			ping.AnchorPoint = Vector2.new(1, 0.5)
+			ping.Position = UDim2.new(1, -10, 0.5, 0)
+			ping.Size = UDim2.fromOffset(96, 44)
+			ping.Activated:Connect(function()
+				Remotes.RequestTrade:FireServer("Ping", {
+					TargetUserId = otherPlayer.UserId,
+				})
+			end)
+		end
+	end
+end
+
+local function updateTutorial()
+	if tutorialDismissed then
+		ui.Tutorial.Visible = false
+		return
+	end
+
+	ui.Tutorial.Visible = true
+
+	if tutorialStep == 1 then
+		ui.TutorialText.Text = "Tap Plant to start your first weird garden."
+		ui.Tutorial.Position = UDim2.new(0.5, 0, 1, -214)
+	elseif tutorialStep == 2 then
+		ui.TutorialText.Text = "Nice. Plants grow on timers. Harvest prompts appear when ready."
+		ui.Tutorial.Position = UDim2.new(0.5, 0, 1, -214)
+	else
+		ui.TutorialText.Text = "Open Shop for rarer seeds, boosts, and mutation flexing."
+		ui.Tutorial.Position = UDim2.new(0.5, 0, 1, -214)
+	end
+end
+
+local function updateUiFromState(refreshPanel)
+	if not state then
+		return
+	end
+
+	selectedSeedId = pickBestOwnedSeed()
+	local selectedSeed = PlantData.Get(selectedSeedId)
+	local plantCount = state.Plants and #state.Plants or 0
+
+	ui.CashLabel.Text = "$" .. Utility.FormatNumber(state.Cash)
+	ui.RebirthLabel.Text = "R " .. tostring(state.Rebirths)
+	ui.MultiplierLabel.Text = string.format("%.2fx", state.CashMultiplier or 1)
+	ui.PlantButton.Text = "Plant\n" .. (selectedSeed and selectedSeed.DisplayName or "Seed")
+	ui.PlantCountLabel.Text = tostring(plantCount) .. "/" .. tostring(state.MaxPlants or Config.BaseMaxPlants)
+	ui.DailyButton.BackgroundColor3 = state.CanClaimDaily and Config.Ui.Warning or Config.Ui.PanelLight
+	ui.DailyButton.TextColor3 = state.CanClaimDaily and Color3.fromRGB(34, 26, 9) or Config.Ui.Text
+
+	if state.LuckyBoostRemaining and state.LuckyBoostRemaining > 0 then
+		ui.BoostLabel.Text = "Luck " .. formatTime(state.LuckyBoostRemaining)
+	else
+		ui.BoostLabel.Text = "Luck ready"
+	end
+
+	if refreshPanel and activePanel == "Seed Shop" then
+		renderShop()
+	elseif refreshPanel and activePanel == "Inventory" then
+		renderInventory()
+	elseif refreshPanel and activePanel == "Rebirth" then
+		renderRebirth()
+	end
+
+	updateTutorial()
+end
+
+local function buildUi()
+	local screenGui = playerGui:FindFirstChild("MainUI")
+
+	if not screenGui then
+		screenGui = create("ScreenGui", {
+			Name = "MainUI",
+			ResetOnSpawn = false,
+			IgnoreGuiInset = true,
+			DisplayOrder = 10,
+			Parent = playerGui,
+		})
+	end
+
+	for _, child in ipairs(screenGui:GetChildren()) do
+		child:Destroy()
+	end
+
+	ui.ScreenGui = screenGui
+	ui.ToastContainer = create("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.fromScale(1, 1),
+		Parent = screenGui,
+	})
+
+	local topBar = create("Frame", {
+		BackgroundColor3 = Config.Ui.Panel,
+		Position = UDim2.fromOffset(10, 8),
+		Size = UDim2.new(1, -20, 0, 58),
+		Parent = screenGui,
+	})
+	addCorner(topBar, 8)
+	addStroke(topBar, Color3.fromRGB(255, 255, 255), 1, 0.78)
+
+	local title = makeLabel(topBar, "Mutation Garden Wars", 18, Config.Ui.Text, Enum.Font.GothamBlack)
+	title.Position = UDim2.fromOffset(12, 0)
+	title.Size = UDim2.new(0.36, 0, 1, 0)
+
+	ui.CashLabel = makeLabel(topBar, "$100", 18, Color3.fromRGB(117, 255, 145), Enum.Font.GothamBlack)
+	ui.CashLabel.Position = UDim2.new(0.38, 0, 0, 0)
+	ui.CashLabel.Size = UDim2.new(0.24, 0, 1, 0)
+	ui.CashLabel.TextXAlignment = Enum.TextXAlignment.Center
+
+	ui.RebirthLabel = makeLabel(topBar, "R 0", 16, Config.Ui.Warning, Enum.Font.GothamBlack)
+	ui.RebirthLabel.Position = UDim2.new(0.63, 0, 0, 0)
+	ui.RebirthLabel.Size = UDim2.new(0.12, 0, 1, 0)
+	ui.RebirthLabel.TextXAlignment = Enum.TextXAlignment.Center
+
+	ui.MultiplierLabel = makeLabel(topBar, "1.00x", 16, Color3.fromRGB(116, 223, 255), Enum.Font.GothamBlack)
+	ui.MultiplierLabel.Position = UDim2.new(0.76, 0, 0, 0)
+	ui.MultiplierLabel.Size = UDim2.new(0.12, 0, 1, 0)
+	ui.MultiplierLabel.TextXAlignment = Enum.TextXAlignment.Center
+
+	ui.PlantCountLabel = makeLabel(topBar, "0/12", 16, Config.Ui.Muted, Enum.Font.GothamBlack)
+	ui.PlantCountLabel.Position = UDim2.new(0.89, 0, 0, 0)
+	ui.PlantCountLabel.Size = UDim2.new(0.1, -8, 1, 0)
+	ui.PlantCountLabel.TextXAlignment = Enum.TextXAlignment.Center
+
+	local actionBar = create("Frame", {
+		AnchorPoint = Vector2.new(0.5, 1),
+		BackgroundColor3 = Config.Ui.Panel,
+		Position = UDim2.new(0.5, 0, 1, -10),
+		Size = UDim2.new(1, -20, 0, 136),
+		Parent = screenGui,
+	})
+	addCorner(actionBar, 8)
+	addStroke(actionBar, Color3.fromRGB(255, 255, 255), 1, 0.78)
+	create("UIPadding", {
+		PaddingTop = UDim.new(0, 8),
+		PaddingBottom = UDim.new(0, 8),
+		PaddingLeft = UDim.new(0, 8),
+		PaddingRight = UDim.new(0, 8),
+		Parent = actionBar,
+	})
+	create("UIGridLayout", {
+		CellPadding = UDim2.fromOffset(8, 8),
+		CellSize = UDim2.new(0.25, -8, 0, 56),
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		Parent = actionBar,
+	})
+
+	ui.PlantButton = makeButton(actionBar, "Plant", Config.Ui.Primary)
+	ui.ShopButton = makeButton(actionBar, "Shop", Color3.fromRGB(64, 164, 255))
+	ui.InventoryButton = makeButton(actionBar, "Inventory", Config.Ui.PanelLight)
+	ui.RebirthButton = makeButton(actionBar, "Rebirth", Color3.fromRGB(128, 86, 255))
+	ui.DailyButton = makeButton(actionBar, "Daily", Config.Ui.Warning)
+	ui.TradeButton = makeButton(actionBar, "Trade", Color3.fromRGB(255, 118, 190))
+	ui.SellAllButton = makeButton(actionBar, "Sell All", Color3.fromRGB(255, 123, 83))
+	ui.PlotButton = makeButton(actionBar, "Plot", Color3.fromRGB(78, 208, 178))
+
+	ui.BoostLabel = makeLabel(screenGui, "Luck ready", 14, Config.Ui.Text, Enum.Font.GothamBold)
+	ui.BoostLabel.AnchorPoint = Vector2.new(1, 0)
+	ui.BoostLabel.BackgroundColor3 = Config.Ui.Panel
+	ui.BoostLabel.BackgroundTransparency = 0.08
+	ui.BoostLabel.Position = UDim2.new(1, -12, 0, 72)
+	ui.BoostLabel.Size = UDim2.fromOffset(140, 28)
+	ui.BoostLabel.TextXAlignment = Enum.TextXAlignment.Center
+	addCorner(ui.BoostLabel, 8)
+
+	ui.Panel = create("Frame", {
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		BackgroundColor3 = Config.Ui.Panel,
+		Position = UDim2.fromScale(0.5, 0.48),
+		Size = UDim2.new(0.92, 0, 0.68, 0),
+		Visible = false,
+		Parent = screenGui,
+	})
+	addCorner(ui.Panel, 8)
+	addStroke(ui.Panel, Color3.fromRGB(255, 255, 255), 1, 0.62)
+	create("UISizeConstraint", {
+		MaxSize = Vector2.new(760, 540),
+		MinSize = Vector2.new(300, 320),
+		Parent = ui.Panel,
+	})
+
+	local header = create("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 0, 54),
+		Parent = ui.Panel,
+	})
+
+	panelTitle = makeLabel(header, "Panel", 20, Config.Ui.Text, Enum.Font.GothamBlack)
+	panelTitle.Position = UDim2.fromOffset(16, 0)
+	panelTitle.Size = UDim2.new(1, -78, 1, 0)
+
+	local close = makeButton(header, "X", Config.Ui.Danger)
+	close.AnchorPoint = Vector2.new(1, 0.5)
+	close.Position = UDim2.new(1, -12, 0.5, 0)
+	close.Size = UDim2.fromOffset(44, 40)
+	close.Activated:Connect(closePanel)
+
+	panelContent = create("ScrollingFrame", {
+		AutomaticCanvasSize = Enum.AutomaticSize.Y,
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		CanvasSize = UDim2.fromOffset(0, 0),
+		Position = UDim2.fromOffset(12, 58),
+		ScrollBarThickness = 6,
+		Size = UDim2.new(1, -24, 1, -70),
+		Parent = ui.Panel,
+	})
+	create("UIListLayout", {
+		Padding = UDim.new(0, 8),
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		Parent = panelContent,
+	})
+	create("UIPadding", {
+		PaddingBottom = UDim.new(0, 8),
+		PaddingLeft = UDim.new(0, 2),
+		PaddingRight = UDim.new(0, 2),
+		Parent = panelContent,
+	})
+
+	ui.Tutorial = create("Frame", {
+		AnchorPoint = Vector2.new(0.5, 1),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		Position = UDim2.new(0.5, 0, 1, -214),
+		Size = UDim2.fromOffset(330, 74),
+		Visible = false,
+		Parent = screenGui,
+	})
+	addCorner(ui.Tutorial, 8)
+	addStroke(ui.Tutorial, Config.Ui.Primary, 2, 0.08)
+
+	ui.TutorialText = makeLabel(ui.Tutorial, "", 15, Color3.fromRGB(27, 39, 32), Enum.Font.GothamBlack)
+	ui.TutorialText.Position = UDim2.fromOffset(12, 8)
+	ui.TutorialText.Size = UDim2.new(1, -62, 1, -16)
+
+	ui.TutorialArrow = makeLabel(ui.Tutorial, "v", 22, Config.Ui.Primary, Enum.Font.GothamBlack)
+	ui.TutorialArrow.AnchorPoint = Vector2.new(0.5, 0)
+	ui.TutorialArrow.Position = UDim2.new(0.5, 0, 1, -7)
+	ui.TutorialArrow.Size = UDim2.fromOffset(28, 24)
+	ui.TutorialArrow.TextXAlignment = Enum.TextXAlignment.Center
+
+	local tutorialClose = makeButton(ui.Tutorial, "OK", Config.Ui.Primary)
+	tutorialClose.AnchorPoint = Vector2.new(1, 0.5)
+	tutorialClose.Position = UDim2.new(1, -10, 0.5, 0)
+	tutorialClose.Size = UDim2.fromOffset(44, 42)
+	tutorialClose.Activated:Connect(function()
+		tutorialDismissed = true
+		updateTutorial()
+	end)
+
+	ui.PlantButton.Activated:Connect(function()
+		requestPlant(pickBestOwnedSeed())
+	end)
+
+	ui.ShopButton.Activated:Connect(renderShop)
+	ui.InventoryButton.Activated:Connect(renderInventory)
+	ui.RebirthButton.Activated:Connect(renderRebirth)
+	ui.TradeButton.Activated:Connect(renderTrade)
+
+	ui.DailyButton.Activated:Connect(function()
+		Remotes.RequestDailyReward:FireServer()
+	end)
+
+	ui.SellAllButton.Activated:Connect(function()
+		Remotes.RequestSellAll:FireServer()
+	end)
+
+	ui.PlotButton.Activated:Connect(function()
+		Remotes.RequestTeleportToPlot:FireServer()
+	end)
+end
+
+local function showFloatingText(position, text, color)
+	local anchor = create("Part", {
+		Anchored = true,
+		CanCollide = false,
+		Transparency = 1,
+		Size = Vector3.new(0.5, 0.5, 0.5),
+		CFrame = CFrame.new(position),
+		Parent = Workspace,
+	})
+
+	local billboard = create("BillboardGui", {
+		AlwaysOnTop = true,
+		Size = UDim2.fromOffset(160, 44),
+		StudsOffset = Vector3.new(0, 0, 0),
+		Parent = anchor,
+	})
+
+	local label = create("TextLabel", {
+		BackgroundTransparency = 1,
+		Font = Enum.Font.GothamBlack,
+		Text = tostring(text),
+		TextColor3 = color or Color3.fromRGB(105, 255, 142),
+		TextScaled = true,
+		TextStrokeTransparency = 0.35,
+		Size = UDim2.fromScale(1, 1),
+		Parent = billboard,
+	})
+
+	TweenService:Create(billboard, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		StudsOffset = Vector3.new(0, 4, 0),
+	}):Play()
+	TweenService:Create(label, TweenInfo.new(0.8), {
+		TextTransparency = 1,
+		TextStrokeTransparency = 1,
+	}):Play()
+
+	task.delay(0.9, function()
+		anchor:Destroy()
+	end)
+end
+
+buildUi()
+updateTutorial()
+
+Remotes.StateUpdate.OnClientEvent:Connect(function(newState)
+	state = newState
+	updateUiFromState(true)
+end)
+
+Remotes.Notify.OnClientEvent:Connect(function(message, tone)
+	showToast(message, tone)
+end)
+
+Remotes.FloatingText.OnClientEvent:Connect(function(position, text, color)
+	showFloatingText(position, text, color)
+end)
+
+Players.PlayerAdded:Connect(function()
+	if activePanel == "Trade" then
+		renderTrade()
+	end
+end)
+
+Players.PlayerRemoving:Connect(function()
+	if activePanel == "Trade" then
+		renderTrade()
+	end
+end)
+
+task.spawn(function()
+	local success, snapshot = pcall(function()
+		return Remotes.GetSnapshot:InvokeServer()
+	end)
+
+	if success and snapshot then
+		state = snapshot
+		updateUiFromState(true)
+	else
+		showToast("Waiting for garden data...", "Warning")
+	end
+end)
+
+task.spawn(function()
+	while true do
+		task.wait(1)
+
+		if state then
+			if state.LuckyBoostRemaining and state.LuckyBoostRemaining > 0 then
+				state.LuckyBoostRemaining -= 1
+			end
+
+			for _, plant in ipairs(state.Plants or {}) do
+				if plant.Remaining and plant.Remaining > 0 then
+					plant.Remaining -= 1
+				end
+			end
+
+			updateUiFromState(false)
+		end
+	end
+end)
+]]></string>
+        </Properties>
+      </Item>
+    </Item>
+  </Item>
+</roblox>

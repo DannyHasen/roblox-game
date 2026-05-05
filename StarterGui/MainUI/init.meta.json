@@ -1,0 +1,6 @@
+{
+  "$className": "ScreenGui",
+  "ResetOnSpawn": false,
+  "IgnoreGuiInset": true,
+  "DisplayOrder": 10
+}

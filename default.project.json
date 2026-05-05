@@ -1,0 +1,35 @@
+{
+  "name": "Mutation Garden Wars",
+  "servePort": 34873,
+  "globIgnorePaths": [
+    "docs/**",
+    ".git/**",
+    ".github/**",
+    ".vscode/**",
+    "**/*.md",
+    "**/*.spec.lua",
+    "**/*.test.lua"
+  ],
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$path": "ReplicatedStorage"
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$path": "ServerScriptService"
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$path": "StarterPlayer/StarterPlayerScripts"
+      }
+    },
+    "StarterGui": {
+      "$className": "StarterGui",
+      "$path": "StarterGui"
+    }
+  }
+}
